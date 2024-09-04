@@ -2,29 +2,186 @@ import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 @customElement('app-footer')
-export class Footer extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      background-color: #333;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      width: 100%;
-    }
-  `;
-
+export class AppFooter extends LitElement {
   render() {
     return html`
-      <footer>
-        <p>© 2024 My Website</p>
+      <footer id="contact" class="contact">
+        <div class="container">
+          <div class="footer-top">
+            <div class="footer-widget">
+              <div class="footer-logo">
+                <a href="index.html">Japanese Cars in Dubai</a>
+              </div>
+              <p>
+                We are at your service with our featured selection of japanese cars here in dubai.
+              </p>
+              <div class="footer-contact">
+                <p>rouine.abderrahmen@gmail.com</p>
+                <p>+971 55 325 7193</p>
+              </div>
+            </div>
+            <div class="footer-widget">
+              <h2>About</h2>
+              <ul>
+                <li><a href="#">about us</a></li>
+                <li><a href="#">career</a></li>
+                <li><a href="#">terms <span> of service</span></a></li>
+                <li><a href="#">privacy policy</a></li>
+              </ul>
+            </div>
+            <div class="footer-widget">
+              <h2>Top brands</h2>
+              <div class="brands-grid">
+                <ul>
+                  <li><a href="#">Toyota</a></li>
+                  <li><a href="#">Honda</a></li>
+                  <li><a href="#">Nissan</a></li>
+                  <li><a href="#">Mazda</a></li>
+                  <li><a href="#">Subaru</a></li>
+                  <li><a href="#">Suzuki</a></li>
+                </ul>
+                <ul>
+                  <li><a href="#">Mitsubishi</a></li>
+                  <li><a href="#">Lexus</a></li>
+                  <li><a href="#">Infiniti</a></li>
+                  <li><a href="#">Acura</a></li>
+                  <li><a href="#">Isuzu</a></li>
+                  <li><a href="#">Daihatsu</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <p>
+              © 2024 <a target="_blank" href="https://www.holmena.com/">HOLMENA</a>.
+            </p>
+            <div class="footer-social">
+              <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20"></i></a>
+              <a href="#"><img src="/icons/socials/facebook.svg" alt="facebook" width="20"></i></a>
+              <a href="#"><img src="/icons/socials/tiktok.svg" alt="titok" width="20"></i></a>
+            </div>
+          </div>
+        </div>
+        <div id="scroll-Top">
+            <img
+              src="/icons/chevron-top.svg"
+              id="scroll-top"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Back to Top"
+            />
+        </div>
       </footer>
     `;
   }
+
+  static styles = css`
+    :host {
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 40px 0;
+    }
+
+    .footer-widget h2 {
+      margin: 0 0 1.5rem 0;
+      font-size: 18px;
+    }
+
+    .footer-logo a {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+    }
+
+    ul li a {
+      color: #666;
+      text-decoration: none;
+    }
+    div p a {
+      color: #C8F7FC;
+      text-decoration: none;
+    }
+
+    .brands-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .footer-copyright {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-top: 0.5px solid rgba(200, 247, 252, .6);
+    }
+
+    .footer-social a {
+      color: #333;
+      margin-left: 15px;
+      font-size: 18px;
+    }
+
+    #scroll-Top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #000;
+      border: 0.5px solid rgba(200, 247, 252, 0.2);
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items:center;
+    }
+
+    @media (max-width: 768px) {
+      .footer-copyright {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-social {
+        margin-top: 15px;
+      }
+
+      .footer-social a:first-child {
+        margin-left: 0;
+      }
+    }
+  `;
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'app-footer': Footer;
+    'app-footer': AppFooter;
   }
 }

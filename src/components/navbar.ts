@@ -1,95 +1,187 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import '@material/web/button/filled-button.js';
+import './mobilenav.ts';
 
 @customElement('app-navbar')
 export class Navbar extends LitElement {
   @state()
   private mobileMenuOpen = false;
 
-  static styles = css`
-    :host {
-      display: block;
-      background-color: #fff;
-      color: #333;
-      padding: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #333;
-      text-decoration: none;
-    }
-
-    nav {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .nav-link {
-      color: #333;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .nav-link:hover {
-      color: #007bff;
-    }
-
-    .mobile-menu-button {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        display: ${props => props.mobileMenuOpen ? 'flex' : 'none'};
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        background-color: #fff;
-        padding: 1rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-
-      .mobile-menu-button {
-        display: block;
-      }
-    }
-  `;
-
   render() {
     return html`
       <header>
-        <a href="/" class="logo">Logo</a>
-        <button class="mobile-menu-button" @click=${this.toggleMobileMenu}>
-          ☰
+        <a href="/" class="logo">Jar</a>
+        <button
+          class="mobile-menu-button"
+          @click=${this.toggleMobileMenu}
+          ?hidden=${!this.isMobile}
+        >
+          <img
+            src="/icons/hamburger.svg"
+            alt='menu'
+            width="32"
+            height="32"
+          />
         </button>
-        <nav>
-          <a href="/" class="nav-link">Home</a>
-          <a href="/about" class="nav-link">About</a>
-          <a href="/contact" class="nav-link">Contact</a>
+        <nav class="desktop-nav" ?hidden=${this.isMobile}>
+          ${this.renderNavLinks()}
         </nav>
+        <mobile-nav
+          .open=${this.mobileMenuOpen}
+          @close=${this.closeMobileMenu}
+        >
+          ${this.renderNavLinks()}
+        </mobile-nav>
       </header>
+    `;
+  }
+
+  private renderNavLinks() {
+    return html`
+    <ul>
+      <li>
+        <a href="#hero" class="nav-link">Home</a>
+      </li>
+      <li>
+        <a href="#service" class="nav-link">Service</a>
+      </li>
+      <li>
+        <a href="#featured-cars" class="nav-link">Features Cars</a>
+      </li>
+      <li> 
+        <a href="#new-cars" class="nav-link">New Cars</a>
+      </li>
+      <li>
+        <a href="#brands" class="nav-link">Brands</a>
+      </li>
+      <li class="contact-button">
+        <a href="#contact" class="nav-link">Contact</a>
+      </li>
+    </ul>
     `;
   }
 
   private toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
-    this.requestUpdate();
   }
+
+  private closeMobileMenu() {
+    this.mobileMenuOpen = false;
+  }
+
+  private get isMobile() {
+    return window.innerWidth <= 1024;
+  }
+
+  static styles = css`
+    :host {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      color: var(--brand-color-4);
+    }
+    ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    li:hover {
+      color: var(--light-color);
+    }
+    a {
+      text-decoration: none;
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+    li a:hover {
+      color: var(--light-color)
+    }
+    .contact-button {
+      border: 1px solid var(--light-color);
+      border-radius: 0.5rem;
+      background-color: transparent;
+      transition: all 0.3s ease;
+      flex-grow: 1;
+      max-width: max-content;
+    }
+    .contact-button a {
+      padding: 0.3rem 0.4rem;
+      white-space: nowrap;
+    }
+    .contact-button:hover {
+      cursor: pointer;
+      background-color: var(--light-color);
+    }
+    .contact-button:hover a {
+      color: var(--brand-color-5);
+    }
+    header {
+      // background: rgba(255, 255, 255, 0.1);
+      // border: 0.5px solid rgba(200, 247, 252, .3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(70px);
+      padding: 1rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--brand-color-4);
+    }
+    .mobile-menu-button {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      display: none;
+    }
+    .mobile-menu-button:hover {
+      cursor: pointer;
+    }
+    .desktop-nav {
+      display: flex;
+      flex-grow: 1;
+      justify-content: flex-end;
+    }
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+    @media (max-width: 1024px) {
+      .mobile-menu-button {
+        display: block;
+      }
+      .desktop-nav {
+        display: none;
+      }
+      header {
+        padding: 1rem 2rem;
+      }
+    }
+    .mobile-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 2rem 0rem;
+      font-size: 1.4rem;
+    }
+  `;
 }
 
 declare global {

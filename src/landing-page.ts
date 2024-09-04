@@ -4,6 +4,7 @@ import litLogo from './assets/lit.svg'
 import viteLogo from '/vite.svg'
 import './components/navbar'
 import './components/footer'
+import './components/hero'
 
 /**
  * An example element.
@@ -27,8 +28,9 @@ export class LandingPage extends LitElement {
 
   render() {
     return html`
+    <app-navbar></app-navbar>
     <div class="layout">
-      <app-navbar></app-navbar>
+      <landing-hero></landing-hero>
       <main>
         <a href="https://vitejs.dev" target="_blank">
           <img src=${viteLogo} class="logo" alt="Vite logo" />
@@ -55,8 +57,6 @@ export class LandingPage extends LitElement {
 
   static styles = css`
     :host {
-      display: flex;
-      background-color: #333;
       color: white;
       width: 100%;
       margin: auto;

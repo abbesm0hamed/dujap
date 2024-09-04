@@ -9,24 +9,24 @@ export class AppFooter extends LitElement {
         <div class="container">
           <div class="footer-top">
             <div class="footer-widget">
-              <div class="footer-logo">
-                <a href="index.html">Japanese Cars in Dubai</a>
-              </div>
+              <h2 class="footer-logo">
+                <a href="/">Japanese Cars in Dubai</a>
+              </h2>
               <p>
-                We are at your service with our featured selection of japanese cars here in dubai.
+                We are at your service with our featured selection of Japanese cars here in Dubai.
               </p>
-              <div class="footer-contact">
+              <address class="footer-contact">
                 <p>rouine.abderrahmen@gmail.com</p>
                 <p>+971 55 325 7193</p>
-              </div>
+              </address>
             </div>
             <div class="footer-widget">
               <h2>About</h2>
               <ul>
-                <li><a href="#">about us</a></li>
-                <li><a href="#">career</a></li>
-                <li><a href="#">terms <span> of service</span></a></li>
-                <li><a href="#">privacy policy</a></li>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Career</a></li>
+                <li><a href="#">Terms of service</a></li>
+                <li><a href="#">Privacy policy</a></li>
               </ul>
             </div>
             <div class="footer-widget">
@@ -56,20 +56,20 @@ export class AppFooter extends LitElement {
               © 2024 <a target="_blank" href="https://www.holmena.com/">HOLMENA</a>.
             </p>
             <div class="footer-social">
-              <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20"></i></a>
-              <a href="#"><img src="/icons/socials/facebook.svg" alt="facebook" width="20"></i></a>
-              <a href="#"><img src="/icons/socials/tiktok.svg" alt="titok" width="20"></i></a>
+              <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
+              <a href="#"><img src="/icons/socials/facebook.svg" alt="facebook" width="20" /></a>
+              <a href="#"><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
             </div>
           </div>
         </div>
         <div id="scroll-Top">
-            <img
-              src="/icons/chevron-top.svg"
-              id="scroll-top"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Back to Top"
-            />
+          <img
+            src="/icons/chevron-top.svg"
+            id="scroll-top"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Back to Top"
+          />
         </div>
       </footer>
     `;
@@ -80,11 +80,15 @@ export class AppFooter extends LitElement {
       display: block;
     }
 
+    footer {
+      display: flex;
+      flex-direction: column;
+    }
+
     .container {
       width: 100%;
-      max-width: 1200px;
+      max-width: var(--max-width);
       margin: 0 auto;
-      padding: 0 20px;
     }
 
     .footer-top {
@@ -93,6 +97,10 @@ export class AppFooter extends LitElement {
       gap: 30px;
       padding: 40px 0;
     }
+    
+    .footer-contact {
+      padding: 1rem 0;
+    }
 
     .footer-widget h2 {
       margin: 0 0 1.5rem 0;
@@ -100,9 +108,9 @@ export class AppFooter extends LitElement {
     }
 
     .footer-logo a {
-      font-size: 24px;
+      font-size: 1.3rem;
       font-weight: bold;
-      color: #333;
+      color: #C8F7FC;
       text-decoration: none;
     }
 
@@ -136,7 +144,7 @@ export class AppFooter extends LitElement {
       justify-content: space-between;
       align-items: center;
       padding: 20px 0;
-      border-top: 0.5px solid rgba(200, 247, 252, .6);
+      border-top: 0.5px solid rgba(200, 247, 252, 0.6);
     }
 
     .footer-social a {
@@ -160,10 +168,19 @@ export class AppFooter extends LitElement {
       cursor: pointer;
       display: flex;
       justify-content: center;
-      align-items:center;
+      align-items: center;
     }
 
     @media (max-width: 768px) {
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .footer-top {
+        padding: 20px 0;
+      }
+
       .footer-copyright {
         flex-direction: column;
         align-items: flex-start;

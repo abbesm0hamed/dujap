@@ -5,6 +5,8 @@ import viteLogo from '/vite.svg'
 import './components/navbar'
 import './components/footer'
 import './components/hero'
+import './components/car-logos-marquee'
+import './components/services'
 
 /**
  * An example element.
@@ -30,21 +32,10 @@ export class LandingPage extends LitElement {
     return html`
     <app-navbar></app-navbar>
     <div class="layout">
-      <landing-hero></landing-hero>
       <main>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src=${viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://lit.dev" target="_blank">
-          <img src=${litLogo} class="logo lit" alt="Lit logo" />
-        </a>
-        <div class="button">
-          <button @click=${this._onClick} part="button">
-            count is ${this.count}
-          </button>
-        </div>
-        <p class="read-the-docs">${this.docsHint}</p>
-        <slot></slot>
+        <landing-hero></landing-hero>
+        <brand-services></brand-services>
+        <car-logo-marquee></car-logo-marquee>
       </main>
       <app-footer></app-footer>
     </div>

@@ -9,7 +9,7 @@ export class Hero extends LitElement {
       <section class="hero-section">
         <figure class="hero-figure">
           <img
-            src="/images/hero1.webp"
+            src="/images/hero.webp"
             alt="A luxurious car on display"
             class="hero-image"
           />

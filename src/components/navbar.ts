@@ -112,7 +112,7 @@ export class Navbar extends LitElement {
     }
     .contact-button {
       border: 1px solid var(--light-color);
-      border-radius: 0.5rem;
+      border-radius: var(--border-radius);
       background-color: transparent;
       transition: all 0.3s ease;
       flex-grow: 1;

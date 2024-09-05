@@ -20,17 +20,34 @@ export class FeaturedCars extends LitElement {
     this.featured_cars = [
       {
         imageUrl: '/images/services/dealership.jpg',
-        title: 'Largest Dealership of Japanese Cars',
+        brand: 'Nissan',
+        model: '2024',
+        gear: 'Automatic',
+        price: '12.000 AED',
         description: 'Discover the most extensive collection of Japanese cars in Dubai. We offer a variety of models to suit all preferences and budgets.',
       },
       {
         imageUrl: '/images/services/car-engine.jpg',
-        title: 'Comprehensive Repair Warranty',
+        brand: 'Mazda',
+        model: '2023',
+        gear: 'Automatic',
+        price: '12.000 AED',
         description: 'Enjoy peace of mind with our comprehensive repair warranty, ensuring your car is always in top condition.',
       },
       {
         imageUrl: '/images/services/assurance.webp',
-        title: 'Insurance Support',
+        brand: 'Ferrari',
+        model: '2020',
+        gear: 'Automatic',
+        price: '12.000 AED',
+        description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
+      },
+      {
+        imageUrl: '/images/services/assurance.webp',
+        brand: 'Mitsu',
+        model: '2021',
+        gear: 'Automatic',
+        price: '12.000 AED',
         description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
       }
     ];
@@ -43,9 +60,12 @@ export class FeaturedCars extends LitElement {
         <div class="services-container">
           ${map(this.featured_cars, (car) => html`
             <featured-car-card
-              .title="${car.title}"
+              .brand="${car.brand}"
+              .model="${car.model}"
               .description="${car.description}"
               .imageUrl="${car.imageUrl}"
+              .price="${car.price}"
+              .gear="${car.gear}"
               class="card"
             ></featured-car-card>
           `)}

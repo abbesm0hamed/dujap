@@ -6,7 +6,12 @@ export class AppFooter extends LitElement {
   render() {
     return html`
       <footer id="contact" class="contact">
-        <div class="container">
+        <section class="container">
+          <img
+            class="footer-bg"
+            src="/images/footer-bg.png"
+            alt="footer-bg"
+          />
           <div class="footer-top">
             <div class="footer-widget">
               <h2 class="footer-logo">
@@ -51,15 +56,15 @@ export class AppFooter extends LitElement {
               </div>
             </div>
           </div>
-          <div class="footer-copyright">
-            <p>
-              © 2024 <a target="_blank" href="https://www.holmena.com/">HOLMENA</a>.
-            </p>
-            <div class="footer-social">
-              <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
-              <a href="#"><img src="/icons/socials/facebook.svg" alt="facebook" width="20" /></a>
-              <a href="#"><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
-            </div>
+        </section>
+        <div class="footer-copyright">
+          <p>
+            © 2024 <a target="_blank" href="https://www.holmena.com/">HOLMENA</a>.
+          </p>
+          <div class="footer-social">
+            <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
+            <a href="#"><img src="/icons/socials/facebook.svg" alt="facebook" width="20" /></a>
+            <a href="#"><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
           </div>
         </div>
         <div id="scroll-Top">
@@ -78,17 +83,45 @@ export class AppFooter extends LitElement {
   static styles = css`
     :host {
       display: block;
+      position: relative;
     }
 
-    footer {
-      display: flex;
-      flex-direction: column;
+    #contact {
+      position: relative;
+      padding: 2rem;
+      background-color: transparent;
+      z-index: 1;
+    }
+
+    .footer-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.4; 
+      animation: fadeOpacity 8s infinite ease-in-out;
+    }
+    @keyframes fadeOpacity {
+      0% {
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0.4;
+      }
     }
 
     .container {
       width: 100%;
       max-width: var(--max-width);
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-top {
@@ -128,6 +161,7 @@ export class AppFooter extends LitElement {
       color: #666;
       text-decoration: none;
     }
+
     div p a {
       color: #C8F7FC;
       text-decoration: none;
@@ -143,7 +177,8 @@ export class AppFooter extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 0;
+      max-width: var(--max-width);
+      margin: 0 auto;
       border-top: 0.5px solid var(--light-color-op);
     }
 
@@ -170,16 +205,12 @@ export class AppFooter extends LitElement {
       justify-content: center;
       align-items: center;
     }
+
     #scroll-Top:hover {
-      background-color: var(--brand-color-5)
+      background-color: var(--brand-color-5);
     }
 
     @media (max-width: 768px) {
-      * {
-        margin: 0;
-        padding: 0;
-      }
-
       .footer-top {
         padding: 20px 0;
       }

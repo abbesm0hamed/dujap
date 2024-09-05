@@ -7,7 +7,7 @@ export class NewestCars extends LitElement {
   render() {
     return html`
       <section>
-        <h1><span>Newest</span><span>Cars</span></h1>
+        <h1><span>Newest</span><span>cars</span></h1>
         <newest-cars-carousel></newest-cars-carousel>
       </section>
     `

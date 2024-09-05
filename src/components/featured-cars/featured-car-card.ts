@@ -28,7 +28,7 @@ export class FeaturedCarCard extends LitElement {
         </figcaption>
         <article>
           <p>Model: ${this.model}</p>
-          <span>Gear: ${this.gear}</span>
+          <p>Gear: ${this.gear}</p>
           <img
             src=${this.imageUrl}
             alt="car"
@@ -51,11 +51,12 @@ export class FeaturedCarCard extends LitElement {
     article {
       display: grid;
       height: 100%;
-      grid-template-rows: auto 0.6fr 1fr;
+      grid-template-rows: 0.2fr 0.2fr auto;
       gap: 1rem;
       border-radius: var(--border-radius);
-      border: 1px solid var(--brand-color-6);
+      border: 2px solid var(--brand-color-6);
       overflow: hidden;
+      padding: 1.5rem;
     }
 
     article h2,
@@ -65,23 +66,20 @@ export class FeaturedCarCard extends LitElement {
       align-items: start;
       text-align: center;
       margin: 0;
-      padding: 0 1.5rem;
-    }
-
-    article span {
-      padding: 0 1.5rem 0 1.5rem ;
-      display: flex;
-      justify-content: start;
-      align-items: start;
-      text-align: center;
-      margin: 0;
     }
 
     img {
       object-fit: cover;
+      width: 100%;
       height: 250px;
       margin: 0;
-      padding: 1.5rem 1.5rem;
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+    }
+    
+    figure {
+      margin: 0;
+      padding: 0;
     }
   `;
 }

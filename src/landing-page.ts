@@ -5,8 +5,9 @@ import viteLogo from '/vite.svg'
 import './components/navbar'
 import './components/footer'
 import './components/hero'
-import './components/car-logos-marquee'
 import './components/services'
+import './components/newest-cars'
+import './components/car-logos-marquee'
 
 /**
  * An example element.
@@ -35,6 +36,7 @@ export class LandingPage extends LitElement {
       <main>
         <landing-hero></landing-hero>
         <brand-services></brand-services>
+        <newest-cars></newest-cars>
         <car-logo-marquee></car-logo-marquee>
       </main>
       <app-footer></app-footer>

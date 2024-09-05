@@ -17,7 +17,7 @@ export class ServiceCard extends LitElement {
       display: block;
       width: 100%;
       overflow: hidden;
-      padding: 6rem 0 4rem 0;
+      padding: 0.7rem 0;
       margin: 0 auto;
       max-width: var(--max-width);
     }
@@ -28,11 +28,11 @@ export class ServiceCard extends LitElement {
       grid-template-rows: auto 0.6fr 1fr;
       gap: 1rem;
       border-radius: var(--border-radius);
-      border: 1px solid #fff;
+      border: 1px solid var(--brand-color-1);
       overflow: hidden;
     }
 
-    article h1,
+    article h2,
     article p {
       display: flex;
       justify-content: center;
@@ -48,7 +48,8 @@ export class ServiceCard extends LitElement {
     img {
       object-fit: cover;
       width: 100%;
-      height: 350px;
+      height: 300px;
+      margin-bottom: 1rem;
     }
   `;
 
@@ -59,7 +60,7 @@ export class ServiceCard extends LitElement {
           src=${this.imageUrl}
           alt="car"
         />
-        <h1>${this.title}</h1>
+        <h2>${this.title}</h2>
         <p>${this.description}</p>
       </article>
     `;

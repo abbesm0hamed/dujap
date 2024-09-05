@@ -7,7 +7,7 @@ export class NewestCars extends LitElement {
   render() {
     return html`
       <section>
-        <h1>Newest Cars</h1>
+        <h1><span>Newest</span><span>Cars</span></h1>
         <newest-cars-carousel></newest-cars-carousel>
       </section>
     `
@@ -17,6 +17,8 @@ export class NewestCars extends LitElement {
     :host{
       display: block;
       background-color: var(--brand-color-2);
+      border-top: 1px solid var(--light-color-op);
+      border-bottom: 1px solid var(--light-color-op);
       width: 100%;
     }
     section {
@@ -28,11 +30,14 @@ export class NewestCars extends LitElement {
     }
     section h1 {
       display:flex;
-      justify-content: center;
+      justify-content: start;
       align-items:center;
-      color: var(--light-color);
       font-size: 2rem;
-      padding: 2rem 0;
+      padding: 4rem 0;
+      gap: 0.8rem;
+    }
+    section h1 span:first-child {
+      color: var(--text-color-1);
     }
   `
 }

@@ -144,7 +144,7 @@ export class AppFooter extends LitElement {
       justify-content: space-between;
       align-items: center;
       padding: 20px 0;
-      border-top: 0.5px solid rgba(200, 247, 252, 0.6);
+      border-top: 0.5px solid var(--light-color-op);
     }
 
     .footer-social a {
@@ -158,7 +158,7 @@ export class AppFooter extends LitElement {
       bottom: 20px;
       right: 20px;
       background-color: #000;
-      border: 0.5px solid rgba(200, 247, 252, 0.2);
+      border: 1px solid var(--light-color-op);
       color: #fff;
       width: 40px;
       height: 40px;
@@ -169,6 +169,9 @@ export class AppFooter extends LitElement {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+    #scroll-Top:hover {
+      background-color: var(--brand-color-5)
     }
 
     @media (max-width: 768px) {

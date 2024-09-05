@@ -7,6 +7,7 @@ import './components/footer'
 import './components/hero'
 import './components/services'
 import './components/newest-cars'
+import './components/featured-cars'
 import './components/car-logos-marquee'
 
 /**
@@ -37,6 +38,7 @@ export class LandingPage extends LitElement {
         <landing-hero></landing-hero>
         <brand-services></brand-services>
         <newest-cars></newest-cars>
+        <featured-cars></featured-cars>
         <car-logo-marquee></car-logo-marquee>
       </main>
       <app-footer></app-footer>

@@ -9,23 +9,37 @@ export class NewestCarsCarousel extends LitElement {
     {
       imageUrl: '/images/random.jpeg',
       title: 'Car 1',
+      description: 'This is a description for Car 1.',
+      price: '2300 AED',
     },
     {
       imageUrl: '/images/services/car-engine.jpg',
       title: 'Car 2',
+      description: 'This is a description for Car 2.',
+      price: '2300 AED',
     },
     {
       imageUrl: '/images/services/dealership.jpg',
       title: 'Car 3',
+      description: 'This is a description for Car 3.',
+      price: '2300 AED',
     },
     {
       imageUrl: '/images/random.jpeg',
       title: 'Car 4',
+      description: 'This is a description for Car 4.',
+      price: '2300 AED',
     },
   ];
 
   @state()
   currentSlide = 0;
+
+  @state()
+  dialogVisible = false;
+
+  @state()
+  selectedCar = { imageUrl: '', title: '', description: '' };
 
   render() {
     return html`
@@ -34,15 +48,31 @@ export class NewestCarsCarousel extends LitElement {
         style="transform: translateX(-${this.currentSlide * 100}%);"
       >
         ${map(this.cars, (car) => html`
-          <figure class="carousel-item">
+          <figure class="carousel-item" @click="${() => this.showDialog(car)}">
             <img
               src=${car.imageUrl}
               alt="${car.title}"
             />
-            <figcaption>${car.title}</figcaption>
+            <figcaption>
+              <h2>${car.title}</h2>
+              <p>${car.description}</p>
+              <p>Price: ${car.price}</p>
+            </figcaption>
           </figure>
         `)}
       </div>
+
+      ${this.dialogVisible ? html`
+        <div class="dialog">
+          <div class="dialog-content">
+            <img src=${this.selectedCar.imageUrl} alt="${this.selectedCar.title}" />
+            <h2>${this.selectedCar.title}</h2>
+            <p>${this.selectedCar.description}</p>
+            <button @click="${this.closeDialog}">Close</button>
+          </div>
+        </div>
+      ` : ''}
+
       <div class="nav-arrows">
         <button @click="${this.prevSlide}">
           <img src='/icons/chevron-left.svg' alt="left" />
@@ -54,9 +84,19 @@ export class NewestCarsCarousel extends LitElement {
     `;
   }
 
+  showDialog(car: { imageUrl: string; title: string; description: string }) {
+    this.selectedCar = car;
+    this.dialogVisible = true;
+  }
+
+  closeDialog() {
+    this.dialogVisible = false;
+  }
+
   prevSlide() {
     this.currentSlide = (this.currentSlide === 0) ? this.cars.length - 1 : this.currentSlide - 1;
   }
+
   nextSlide() {
     this.currentSlide = (this.currentSlide === this.cars.length - 1) ? 0 : this.currentSlide + 1;
   }
@@ -73,54 +113,123 @@ export class NewestCarsCarousel extends LitElement {
       display: flex;
       transition: transform 0.5s ease-in-out;
       will-change: transform;
-      padding: 0;
-      margin: 0;
     }
 
     .carousel-item {
       min-width: 100%;
-      max-width: var(--max-width); 
-      display: flex; 
-      flex-direction: column;
+      max-width: var(--max-width);
+      display: grid;
+      grid-template-columns: 1fr;
       align-items: center;
-      justify-content: center;
-      padding: 0;
       margin: 0;
+      padding: 0;
     }
 
-    .carousel img {
+    @media (min-width: 768px) {
+      .carousel-item {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .carousel-item img {
       width: 100%;
-      height: 550px; 
+      height: 600px;
+      object-fit: cover;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--brand-color-1);
+    }
+
+    figcaption {
+      padding: 1rem;
+      text-align: start;
+      height: 100%;
+      padding: 0 4rem;
+    }
+
+    figcaption h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--text-color);
+    }
+
+    figcaption p {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      color: var(--text-color);
+    }
+
+    .dialog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .dialog-content {
+      background-color: var(--brand-color-2);
+      border: 1px solid var(--brand-color-1);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .dialog-content img {
+      width: 100%;
+      height: auto;
       object-fit: cover;
       border-radius: var(--border-radius);
     }
 
-    figcaption {
-      text-align: center;
+    .dialog-content h2 {
       margin-top: 1rem;
-      color: var(--text-color);
-      padding: 2rem 0;
+      color: var(--brand-color-5);
+    }
+
+    .dialog-content button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--brand-color-5);
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .dialog-content button:hover {
+      background-color: var(--brand-color-2);
     }
 
     .nav-arrows {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 1rem;
+      margin-top: 4rem;
     }
 
     .nav-arrows button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border: none;
-      background-color: var(--brand-color-5);
-      padding: 0.5rem 1rem;
+      background-color: var(--dark-bg);
+      padding: 0.5rem 0.5rem;
       margin: 0 0.5rem;
+      border: 1px solid var(--light-color-op);
       border-radius: 5px;
       cursor: pointer;
       font-size: 1.2rem;
     }
 
     .nav-arrows button:hover {
-      background-color: var(--brand-color-2);
+      background-color: var(--brand-color-5);
     }
   `;
 }

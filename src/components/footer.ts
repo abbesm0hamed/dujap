@@ -88,7 +88,6 @@ export class AppFooter extends LitElement {
 
     #contact {
       position: relative;
-      padding: 2rem;
       background-color: transparent;
       z-index: 1;
     }
@@ -102,7 +101,7 @@ export class AppFooter extends LitElement {
       object-fit: cover;
       z-index: -1;
       opacity: 0.4; 
-      animation: fadeOpacity 8s infinite ease-in-out;
+      animation: fadeOpacity 6s infinite ease-in-out;
     }
     @keyframes fadeOpacity {
       0% {

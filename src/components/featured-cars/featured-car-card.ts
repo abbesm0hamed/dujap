@@ -30,7 +30,7 @@ export class FeaturedCarCard extends LitElement {
           <p>Model: ${this.model}</p>
           <p>Gear: ${this.gear}</p>
           <img
-            src=${this.imageUrl}
+            src=${this.imageUrl[0].signedUrl}
             alt="car"
           />
         </article>
@@ -54,9 +54,10 @@ export class FeaturedCarCard extends LitElement {
       grid-template-rows: 0.2fr 0.2fr auto;
       gap: 1rem;
       border-radius: var(--border-radius);
-      border: 2px solid var(--brand-color-6);
+      border: 1px solid var(--brand-color-6);
       overflow: hidden;
       padding: 1.5rem;
+      box-shadow: var(--brand-color-6)
     }
 
     article h2,
@@ -71,7 +72,7 @@ export class FeaturedCarCard extends LitElement {
     img {
       object-fit: cover;
       width: 100%;
-      height: 250px;
+      height: 450px;
       margin: 0;
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);

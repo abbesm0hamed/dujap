@@ -14,44 +14,72 @@ export class FeaturedCars extends LitElement {
       featured_cars: { type: Array },
     };
   }
+
   constructor() {
     super();
-
-    this.featured_cars = [
-      {
-        imageUrl: '/images/services/dealership.jpg',
-        brand: 'Nissan',
-        model: '2024',
-        gear: 'Automatic',
-        price: '12.000 AED',
-        description: 'Discover the most extensive collection of Japanese cars in Dubai. We offer a variety of models to suit all preferences and budgets.',
-      },
-      {
-        imageUrl: '/images/services/car-engine.jpg',
-        brand: 'Mazda',
-        model: '2023',
-        gear: 'Automatic',
-        price: '12.000 AED',
-        description: 'Enjoy peace of mind with our comprehensive repair warranty, ensuring your car is always in top condition.',
-      },
-      {
-        imageUrl: '/images/services/assurance.webp',
-        brand: 'Ferrari',
-        model: '2020',
-        gear: 'Automatic',
-        price: '12.000 AED',
-        description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
-      },
-      {
-        imageUrl: '/images/services/assurance.webp',
-        brand: 'Mitsu',
-        model: '2021',
-        gear: 'Automatic',
-        price: '12.000 AED',
-        description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
+    this.fetchOptions = {
+      method: 'GET',
+      headers: {
+        'xc-token': import.meta.env.VITE_NOCODB_API_TOKEN,
+        'Content-Type': 'application/json'
       }
-    ];
+    };
+    this.featured_cars = [];
   }
+
+  async connectedCallback() {
+    super.connectedCallback();
+    await this.fetchCarData();
+  }
+
+  async fetchCarData() {
+    const response = await fetch(
+      import.meta.env.VITE_NOCODB_URL,
+      this.fetchOptions
+    );
+
+    const data = await response.json();
+    this.featured_cars = data.list;
+  }
+
+  // constructor() {
+  //   super();
+  //
+  //   this.featured_cars = [
+  //     {
+  //       imageUrl: '/images/services/dealership.jpg',
+  //       brand: 'Nissan',
+  //       model: '2024',
+  //       gear: 'Automatic',
+  //       price: '12.000 AED',
+  //       description: 'Discover the most extensive collection of Japanese cars in Dubai. We offer a variety of models to suit all preferences and budgets.',
+  //     },
+  //     {
+  //       imageUrl: '/images/services/car-engine.jpg',
+  //       brand: 'Mazda',
+  //       model: '2023',
+  //       gear: 'Automatic',
+  //       price: '12.000 AED',
+  //       description: 'Enjoy peace of mind with our comprehensive repair warranty, ensuring your car is always in top condition.',
+  //     },
+  //     {
+  //       imageUrl: '/images/services/assurance.webp',
+  //       brand: 'Ferrari',
+  //       model: '2020',
+  //       gear: 'Automatic',
+  //       price: '12.000 AED',
+  //       description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
+  //     },
+  //     {
+  //       imageUrl: '/images/services/assurance.webp',
+  //       brand: 'Mitsu',
+  //       model: '2021',
+  //       gear: 'Automatic',
+  //       price: '12.000 AED',
+  //       description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
+  //     }
+  //   ];
+  // }
 
   render() {
     return html`

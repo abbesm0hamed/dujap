@@ -67,7 +67,10 @@ export class AppFooter extends LitElement {
             <a href="#"><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
           </address>
         </div>
-        <div id="scroll-Top">
+        <a
+          id="scroll-Top"
+          href="#hero"
+        >
           <img
             src="/icons/chevron-top.svg"
             id="scroll-top"
@@ -75,7 +78,7 @@ export class AppFooter extends LitElement {
             data-placement="top"
             title="Back to Top"
           />
-        </div>
+        </a>
       </footer>
     `;
   }
@@ -213,6 +216,7 @@ export class AppFooter extends LitElement {
 
     #scroll-Top:hover {
       background-color: var(--brand-color-5);
+      cursor: pointer;
     }
 
     @media (max-width: 768px) {

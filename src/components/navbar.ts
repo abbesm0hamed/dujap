@@ -25,7 +25,9 @@ export class Navbar extends LitElement {
           />
         </button>
         <nav class="desktop-nav" ?hidden=${this.isMobile}>
-          ${this.renderNavLinks()}
+          <ul>
+            ${this.renderNavLinks()}
+          </ul>
         </nav>
       </header>
       <aside>
@@ -33,7 +35,9 @@ export class Navbar extends LitElement {
           .open=${this.mobileMenuOpen}
           @close=${this.closeMobileMenu}
         >
-          ${this.renderNavLinks()}
+          <ul>
+            ${this.renderNavLinks()}
+          </ul>
         </mobile-nav>
       </aside>
     `;
@@ -41,26 +45,24 @@ export class Navbar extends LitElement {
 
   private renderNavLinks() {
     return html`
-      <ul>
-        <li>
-          <a href="#hero" class="nav-link">Home</a>
-        </li>
-        <li>
-          <a href="#service" class="nav-link">Service</a>
-        </li>
-        <li>
-          <a href="#featured-cars" class="nav-link">Features Cars</a>
-        </li>
-        <li> 
-          <a href="#new-cars" class="nav-link">New Cars</a>
-        </li>
-        <li>
-          <a href="#brands" class="nav-link">Brands</a>
-        </li>
-        <li class="contact-button">
-          <a href="#contact" class="nav-link">Contact</a>
-        </li>
-      </ul>
+      <li>
+        <a href="#hero" class="nav-link">Home</a>
+      </li>
+      <li>
+        <a href="#services" class="nav-link">Services</a>
+      </li>
+      <li> 
+        <a href="#new-cars" class="nav-link">New Cars</a>
+      </li>
+      <li>
+        <a href="#featured-cars" class="nav-link">Features Cars</a>
+      </li>
+      <li>
+        <a href="#brands" class="nav-link">Brands</a>
+      </li>
+      <li class="contact-button">
+        <a href="#contact" class="nav-link">Contact</a>
+      </li>
     `;
   }
 
@@ -84,16 +86,15 @@ export class Navbar extends LitElement {
       left: 0;
       right: 0;
       z-index: 1000;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(70px);
-      padding: 1rem 0;
     }
     
     header {
       display: block;
       margin: 0 auto;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(70px);
       max-width: var(--max-width, 1250px) !important;
-      padding: 0 1rem 0 1rem; 
+      padding: 1rem 1rem; 
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -116,12 +117,23 @@ export class Navbar extends LitElement {
         padding-right: 4rem;
       }
     }
-    ul {
+    nav ul {
       display: flex;
       list-style: none;
       padding: 0;
       margin: 0;
       align-items: center;
+    }
+    aside ul {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      align-items: start;
+      justify-content: start;
+      gap: 1rem;
+      padding: 2rem 0;
     }
     li {
       display: flex;
@@ -201,6 +213,13 @@ export class Navbar extends LitElement {
       gap: 1rem;
       padding: 2rem 0rem;
       font-size: 1.4rem;
+    }
+    
+    aside {
+      height: 100vh;
+      max-height: 100vh;
+      width: 80%;
+      max-width: var(--mobile-nav-width);
     }
   `;
 }

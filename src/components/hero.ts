@@ -6,7 +6,7 @@ export class Hero extends LitElement {
 
   render() {
     return html`
-      <section class="hero-section">
+      <section class="hero-section" id="hero">
         <figure class="hero-figure">
           <img
             src="/images/hero.webp"

@@ -30,7 +30,9 @@ export class MobileNav extends LitElement {
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.6);
+      -webkit-backdrop-filter: blur(50px);
+      backdrop-filter: blur(10px);
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s, visibility 0.3s;
@@ -47,7 +49,7 @@ export class MobileNav extends LitElement {
       left: -300px;
       width: 300px;
       height: 100%;
-      background-color: var(--brand-color-5);
+      background-color: var(--brand-color-2);
       transition: left 0.3s;
       z-index: 999;
       padding: 1rem;

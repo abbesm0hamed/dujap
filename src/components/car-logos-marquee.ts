@@ -5,7 +5,7 @@ import { customElement } from 'lit/decorators.js';
 export class CarLogoMarquee extends LitElement {
   render() {
     return html`
-      <div class="marquee-container">
+      <div class="marquee-container" id="brands">
         <div class="marquee">
           ${this.renderLogos()}
         </div>

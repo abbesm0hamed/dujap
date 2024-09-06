@@ -20,6 +20,7 @@
   --text-color-2: #802424;
 
   --max-width: 1250px;
+  --mobile-nav-width: 300px;
   --border-radius: 12px;
 
   /* Apply CSS custom properties */
@@ -56,9 +57,9 @@ body {
   background-color: var(--dark-bg-color);
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     color: #fff; 
-    background-color: var(--brand-color-5);
+    background-color: var(--dark-bg-color);
   }
 }

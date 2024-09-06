@@ -38,7 +38,7 @@ export class Services extends LitElement {
 
   render() {
     return html`
-      <section id="services">
+      <section>
         ${map(this.car_services, (car) => html`
           <service-card
             .title="${car.title}"

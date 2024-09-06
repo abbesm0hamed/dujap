@@ -32,16 +32,16 @@ export class LandingPage extends LitElement {
 
   render() {
     return html`
-    <app-navbar></app-navbar>
+    <app-navbar id="top"></app-navbar>
     <div class="layout">
       <main>
-        <landing-hero></landing-hero>
-        <brand-services></brand-services>
-        <newest-cars></newest-cars>
-        <featured-cars></featured-cars>
-        <car-logo-marquee></car-logo-marquee>
+        <landing-hero id="hero"></landing-hero>
+        <brand-services id="services"></brand-services>
+        <newest-cars id="new-cars"></newest-cars>
+        <featured-cars id="featured-cars"></featured-cars>
+        <car-logo-marquee id="brands"></car-logo-marquee>
       </main>
-      <app-footer></app-footer>
+      <app-footer id="contact"></app-footer>
     </div>
     `
   }

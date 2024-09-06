@@ -5,7 +5,7 @@ import { customElement } from 'lit/decorators.js';
 export class AppFooter extends LitElement {
   render() {
     return html`
-      <footer id="contact" class="contact">
+      <footer class="contact">
         <section class="container">
           <img
             class="footer-bg"

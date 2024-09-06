@@ -15,7 +15,7 @@ export class Navbar extends LitElement {
         <button
           class="mobile-menu-button"
           @click=${this.toggleMobileMenu}
-          ?hidden=${!this.isMobile}
+          ?hidden=${!this.isMobile && !this.mobileMenuOpen}
         >
           <img
             src="/icons/hamburger.svg"
@@ -24,15 +24,18 @@ export class Navbar extends LitElement {
             height="32"
           />
         </button>
-        <nav class="desktop-nav" ?hidden=${this.isMobile}>
+        <nav
+          class="desktop-nav"
+          ?hidden=${this.isMobile && this.mobileMenuOpen}
+        >
           <ul>
             ${this.renderNavLinks()}
           </ul>
         </nav>
       </header>
-      <aside>
+      <aside ?hidden=${!this.isMobile && !this.mobileMenuOpen}>
         <mobile-nav
-          .open=${this.mobileMenuOpen}
+          .open=${this.mobileMenuOpen && this.isMobile}
           @close=${this.closeMobileMenu}
         >
           <ul>
@@ -46,7 +49,7 @@ export class Navbar extends LitElement {
   private renderNavLinks() {
     return html`
       <li>
-        <a href="#hero" class="nav-link">Home</a>
+        <a href="#top" class="nav-link">Home</a>
       </li>
       <li>
         <a href="#services" class="nav-link">Services</a>
@@ -216,10 +219,25 @@ export class Navbar extends LitElement {
     }
     
     aside {
-      height: 100vh;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--brand-color-5);
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease-out;
+    }
+
+    aside mobile-nav[open] {
       max-height: 100vh;
-      width: 80%;
-      max-width: var(--mobile-nav-width);
+      transition: max-height 0.3s ease-in;
+    }
+
+    @media (min-width: 1025px) {
+      aside {
+        display: none;
+      }
     }
   `;
 }

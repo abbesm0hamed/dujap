@@ -43,7 +43,7 @@ export class FeaturedCars extends LitElement {
 
   render() {
     return html`
-      <section id="featured-cars">
+      <section>
         <h1><span>Featured</span><span>cars</span></h1>
         <div class="services-container">
           ${map(this.featured_cars, (car) => html`

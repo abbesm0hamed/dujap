@@ -61,7 +61,7 @@ export class Services extends LitElement {
 
     section {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, auto));
+      grid-template-columns: repeat(auto-fit, minmax(300px, auto));
       gap: 2rem;
       max-width: var(--max-width);
       margin: 0 auto;

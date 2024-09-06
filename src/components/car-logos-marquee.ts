@@ -8,6 +8,8 @@ export class CarLogoMarquee extends LitElement {
       <div class="marquee-container">
         <div class="marquee">
           ${this.renderLogos()}
+        </div>
+        <div class="marquee" aria-hidden="true">
           ${this.renderLogos()}
         </div>
       </div>
@@ -16,15 +18,15 @@ export class CarLogoMarquee extends LitElement {
 
   renderLogos() {
     return html`
-      <img src="/icons/cars-logos/toyota.png" alt="Toyota" class="logo" />
-      <img src="/icons/cars-logos/honda.png" alt="Honda" class="logo" />
-      <img src="/icons/cars-logos/mazda.png" alt="Nissan" class="logo" />
-      <img src="/icons/cars-logos/suzuki.png" alt="Mazda" class="logo" />
-      <img src="/icons/cars-logos/isuzu.png" alt="Mazda" class="logo" />
-      <img src="/icons/cars-logos/nissan.png" alt="Subaru" class="logo" />
-      <img src="/icons/cars-logos/kia.webp" alt="Suzuki" class="logo" />
-      <img src="/icons/cars-logos/lexus.png" alt="Suzuki" class="logo" />
-      <img src="/icons/cars-logos/mitsubishi.png" alt="Suzuki" class="logo" />
+      <img src="/icons/cars-logos/toyota.png" alt="Toyota" />
+      <img src="/icons/cars-logos/honda.png" alt="Honda" />
+      <img src="/icons/cars-logos/mazda.png" alt="Mazda" />
+      <img src="/icons/cars-logos/isuzu.png" alt="Isuzu" />
+      <img src="/icons/cars-logos/nissan.png" alt="Nissan" />
+      <img src="/icons/cars-logos/lexus.png" alt="Lexus" />
+      <img src="/icons/cars-logos/scion.png" alt="scion" />
+      <img src="/icons/cars-logos/acura.png" alt="acura" />
+      <img src="/icons/cars-logos/mitsubishi.png" alt="Mitsubishi" />
     `;
   }
 
@@ -33,37 +35,65 @@ export class CarLogoMarquee extends LitElement {
       display: block;
       width: 100%;
       overflow: hidden;
-      padding: 4rem 0 8rem 0;
+      margin: 7rem 0 6rem 0;
+      padding: 1rem 0;
+      background-color: var(--brand-color-7);
+
+      --size: 5rem;
+      --gap: calc(var(--size) / 7);
+      --duration: 30s;
+      --scroll-start: 0;
+      --scroll-end: calc(-100% - var(--gap));
+    }
+    @media (min-width: 768px) {
+      :host{
+        margin: 8rem 0;
+      }
+    }
+    @media (min-width: 1024px) {
+      :host{
+        margin: 10rem 0;
+      }
     }
 
     .marquee-container {
       display: flex;
-      align-items: center;
       overflow: hidden;
-      width: 100%;
-      height: 100%;
+      user-select: none;
+      gap: var(--gap);
     }
 
     .marquee {
+      flex-shrink: 0;
       display: flex;
       align-items: center;
-      white-space: nowrap;
-      animation: scroll 10s linear infinite;
+      justify-content: space-around;
+      gap: var(--gap);
+      min-width: 100%;
+      animation: scroll-x var(--duration) linear infinite;
     }
 
-    @keyframes scroll {
-      0% {
-        transform: translateX(0);
+    .marquee img {
+      display: grid;
+      place-items: center;
+      width: var(--size);
+      height: 4rem;
+      fill: var(--color-text);
+      background: var(--color-bg-accent);
+      aspect-ratio: 16/9;
+      padding: calc(var(--size) / 10);
+      border-radius: 0.5rem;
+    }
+
+    @keyframes scroll-x {
+      from {
+        transform: translateX(var(--scroll-start));
       }
-      100% {
-        transform: translateX(-50%);
+      to {
+        transform: translateX(var(--scroll-end));
       }
     }
 
-    .logo {
-      height: 50px;
-      margin: 0 1rem;
-    }
   `;
 }
 

@@ -45,7 +45,7 @@ export class Hero extends LitElement {
     }
     .hero-caption {
       position: absolute;
-      top: 55%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
@@ -61,14 +61,14 @@ export class Hero extends LitElement {
       margin: 1rem 0 0;
       font-size: 1.25rem;
     }
-    @media (min-width: 1024px){
+    @media (min-width: 768px) {
       .hero-caption {
-        padding: 1rem 4.8rem;
+        top: 60%;
       }
     }
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
       .hero-caption {
-        width: 80%;
+        width: 90%;
       }
       .hero-caption h1 {
         font-size: 2.5rem;

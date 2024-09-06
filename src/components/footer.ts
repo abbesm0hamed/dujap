@@ -61,11 +61,11 @@ export class AppFooter extends LitElement {
           <p>
             © 2024 <a target="_blank" href="https://www.holmena.com/">HOLMENA</a>.
           </p>
-          <div class="footer-social">
+          <address class="footer-social">
             <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
             <a href="#"><img src="/icons/socials/facebook.svg" alt="facebook" width="20" /></a>
             <a href="#"><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
-          </div>
+          </address>
         </div>
         <div id="scroll-Top">
           <img
@@ -143,7 +143,7 @@ export class AppFooter extends LitElement {
     .footer-logo a {
       font-size: 1.3rem;
       font-weight: bold;
-      color: #C8F7FC;
+      color: var(--text-color-2);
       text-decoration: none;
     }
 
@@ -180,6 +180,11 @@ export class AppFooter extends LitElement {
       max-width: var(--max-width);
       margin: 0 auto;
       border-top: 0.5px solid var(--light-color-op);
+    }
+    @media (max-width: 768px) {
+      .footer-copyright {
+        padding-bottom: 0.5rem;
+      }
     }
 
     .footer-social a {

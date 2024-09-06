@@ -112,7 +112,7 @@ export class FeaturedCars extends LitElement {
     }
     .services-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       max-width: var(--max-width);
       margin: 0 auto;
       gap: 2rem;

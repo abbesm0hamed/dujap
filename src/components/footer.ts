@@ -69,7 +69,7 @@ export class AppFooter extends LitElement {
         </div>
         <a
           id="scroll-Top"
-          href="#hero"
+          href="#top"
         >
           <img
             src="/icons/chevron-top.svg"

@@ -54,7 +54,6 @@ export class NewestCarsCarousel extends LitElement {
   selectRandomCars() {
     const shuffled = [...this.cars].sort(() => 0.5 - Math.random());
     this.displayedCars = shuffled.slice(0, 3);
-    console.log("displayed cars ", this.displayedCars)
   }
 
   render() {
@@ -66,8 +65,7 @@ export class NewestCarsCarousel extends LitElement {
         ${map(this.displayedCars, (car) => html`
           <figure
             class="carousel-item"
-            <!-- intended typo to disactivate dialog -->
-            <!-- @cli ck="${() => this.showDialog(car)}" -->
+            @cli ck="${() => this.showDialog(car)}" // intended typo to disactivate the dialog
           >
             <img
               src=${car.imageUrl[0].signedUrl}

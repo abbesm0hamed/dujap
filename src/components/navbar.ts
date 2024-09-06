@@ -52,23 +52,33 @@ export class Navbar extends LitElement {
         <a href="#top" class="nav-link">Home</a>
       </li>
       <li>
-        <a href="#services" class="nav-link">Services</a>
-      </li>
-      <li> 
-        <a href="#new-cars" class="nav-link">New Cars</a>
+        <a @click=${() => this.scrollToSection("services")} class="nav-link">Services</a>
       </li>
       <li>
-        <a href="#featured-cars" class="nav-link">Features Cars</a>
+        <a @click=${() => this.scrollToSection('new-cars')} class="nav-link">New Cars</a>
       </li>
       <li>
-        <a href="#brands" class="nav-link">Brands</a>
+        <a @click=${() => this.scrollToSection('featured-cars')} class="nav-link">Featured Cars</a>
+      </li>
+      <li>
+        <a @click=${() => this.scrollToSection('brands')} class="nav-link">Brands</a>
       </li>
       <li class="contact-button">
-        <a href="#contact" class="nav-link">Contact</a>
+        <a 
+          @click=${() => this.scrollToSection('contact')} 
+          class="nav-link"
+        >Contact</a>
       </li>
     `;
   }
 
+  private scrollToSection(sectionId: string) {
+    this.dispatchEvent(new CustomEvent('navigate-to-section', {
+      detail: { sectionId },
+      bubbles: true,
+      composed: true,
+    }));
+  }
   private toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
@@ -201,6 +211,9 @@ export class Navbar extends LitElement {
       color: white;
       text-decoration: none;
       margin: 0 1rem;
+    }
+    .nav-link:hover {
+      cursor: pointer;
     }
     @media (max-width: 1024px) {
       .mobile-menu-button {

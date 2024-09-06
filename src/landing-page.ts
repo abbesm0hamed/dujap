@@ -28,24 +28,40 @@ export class LandingPage extends LitElement {
   @property({ type: Number })
   count = 0
 
-  render() {
-    return html`
-    <app-navbar id="top"></app-navbar>
-    <div class="layout">
-      <main>
-        <landing-hero id="hero"></landing-hero>
-        <brand-services id="services"></brand-services>
-        <newest-cars id="new-cars"></newest-cars>
-        <featured-cars id="featured-cars"></featured-cars>
-        <car-logo-marquee id="brands"></car-logo-marquee>
-      </main>
-      <app-footer id="contact"></app-footer>
-    </div>
-    `
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('navigate-to-section', this.handleNavigation);
   }
 
-  private _onClick() {
-    this.count++
+  disconnectedCallback() {
+    this.removeEventListener('navigate-to-section', this.handleNavigation);
+    super.disconnectedCallback();
+  }
+
+  private handleNavigation(event: CustomEvent) {
+    const sectionId = event.detail.sectionId;
+    const section = this.shadowRoot?.getElementById(sectionId) || document.getElementById(sectionId);
+
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.error(`Section with ID ${sectionId} not found!`);
+    }
+  }
+  render() {
+    return html`
+      <app-navbar id="top"></app-navbar>
+      <div class="layout">
+        <main>
+          <landing-hero></landing-hero>
+          <brand-services id="services"></brand-services>
+          <newest-cars id="new-cars"></newest-cars>
+          <featured-cars id="featured-cars"></featured-cars>
+          <car-logo-marquee id="brands"></car-logo-marquee>
+        </main>
+        <app-footer id="contact"></app-footer>
+      </div>
+    `
   }
 
   static styles = css`
@@ -61,6 +77,7 @@ export class LandingPage extends LitElement {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      scroll-behavior: smooth;
     }
     .button {
       background-color: orange;

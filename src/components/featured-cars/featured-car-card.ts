@@ -46,6 +46,7 @@ export class FeaturedCarCard extends LitElement {
           <div class="dialog-content" @click="${(e: Event) => e.stopPropagation()}">
             <h2>${this.car.brand} | ${this.car.model} | ${this.car.color}</h2>
             <p>${this.car.description}</p>
+            <br/>
             <p><span>Engine:</span> ${this.car.engine}</p>
             <p><span>Features:</span> ${this.car.features}</p>
             <p><span>Assurance:</span> ${this.car.assurance}</p>
@@ -84,7 +85,7 @@ export class FeaturedCarCard extends LitElement {
       grid-template-rows: 0.2fr 0.2fr auto;
       gap: 1rem;
       border-radius: var(--border-radius);
-      border: 1px solid var(--text-color-2);
+      border: 1px solid var(--border-color-1);
       overflow: hidden;
       padding: 1.5rem;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -152,6 +153,7 @@ export class FeaturedCarCard extends LitElement {
       border-radius: var(--border-radius);
       border: 1px solid var(--brand-color-1);
       padding: 2rem;
+      margin: 0 1rem;
       max-width: 90%;
       width: 500px;
       max-height: 90vh;
@@ -160,6 +162,27 @@ export class FeaturedCarCard extends LitElement {
       transform: scale(0.9);
       opacity: 0;
       animation: zoomIn 0.3s ease forwards;
+    }
+
+    @media (min-width: 768px) {
+      .dialog-content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .dialog-content {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .dialog-content {
+        padding-left: 4rem;
+        padding-right: 4rem;
+      }
     }
 
     .dialog-content img {

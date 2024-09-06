@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, html, LitElement } from "lit";
+import { css, html, LitElement } from "lit";
 import { customElement } from "lit/decorators.js";
 import './newest-cars/newest-cars-carousel'
 
@@ -14,30 +14,54 @@ export class NewestCars extends LitElement {
   }
 
   static styles = css`
-    :host{
+    :host {
       display: block;
       background-color: var(--brand-color-2);
       border-top: 1px solid var(--light-color-op);
       border-bottom: 1px solid var(--light-color-op);
       width: 100%;
     }
+
     section {
       display: block;
-      width: 100%;
+      margin: 4rem auto;
       max-width: var(--max-width);
-      margin: 0rem auto;
-      padding: 1rem 0 4rem 0;
+      padding: 0 1rem 0 1rem; 
     }
-    section h1 {
-      display:flex;
+
+    h1 {
+      display: flex;
       justify-content: start;
-      align-items:center;
+      align-items: center;
       font-size: 2rem;
-      padding: 4rem 0;
+      padding: 0 0 4rem 0;
+      margin: 0 0;
       gap: 0.8rem;
     }
-    section h1 span:first-child {
+
+    h1 span:first-child {
       color: var(--text-color-1);
+    }
+
+    @media (min-width: 768px) {
+      section {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      section {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      section {
+        padding-left: 4rem;
+        padding-right: 4rem;
+      }
     }
   `
 }

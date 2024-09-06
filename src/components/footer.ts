@@ -86,10 +86,11 @@ export class AppFooter extends LitElement {
       position: relative;
     }
 
-    #contact {
+    .contact {
       position: relative;
       background-color: transparent;
       z-index: 1;
+      padding: 0 1rem 0 1rem; 
     }
 
     .footer-bg {
@@ -225,6 +226,25 @@ export class AppFooter extends LitElement {
 
       .footer-social a:first-child {
         margin-left: 0;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .contact {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .contact {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+    @media (min-width: 1280px) {
+      .contact {
+        padding-left: 4rem;
+        padding-right: 4rem;
       }
     }
   `;

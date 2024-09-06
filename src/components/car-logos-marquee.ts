@@ -33,9 +33,7 @@ export class CarLogoMarquee extends LitElement {
       display: block;
       width: 100%;
       overflow: hidden;
-      padding: 12rem 0;
-      margin: 0 auto;
-      max-width: var(--max-width);
+      padding: 4rem 0 8rem 0;
     }
 
     .marquee-container {

@@ -54,6 +54,7 @@ export class LandingPage extends LitElement {
     :host {
       color: white;
       width: 100%;
+      max-width: 100vw;
       margin: auto;
     }
     .layout {

@@ -54,10 +54,10 @@ export class FeaturedCarCard extends LitElement {
       grid-template-rows: 0.2fr 0.2fr auto;
       gap: 1rem;
       border-radius: var(--border-radius);
-      border: 1px solid var(--brand-color-6);
+      border: 1px solid var(--text-color-2);
       overflow: hidden;
       padding: 1.5rem;
-      box-shadow: var(--brand-color-6)
+      box-shadow: var(--text-color-2)
     }
 
     article h2,

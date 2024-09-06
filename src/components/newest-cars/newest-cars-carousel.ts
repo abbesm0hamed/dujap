@@ -117,33 +117,26 @@ export class NewestCarsCarousel extends LitElement {
 
     .carousel-item {
       min-width: 100%;
-      max-width: var(--max-width);
-      display: grid;
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       margin: 0;
-      padding: 0;
-    }
-
-    @media (min-width: 768px) {
-      .carousel-item {
-        grid-template-columns: 1fr 1fr;
-      }
+      box-sizing: border-box;
     }
 
     .carousel-item img {
-      width: 100%;
-      height: 600px;
+      width: calc(100% - 2px);
+      height: 450px;
+      max-height: 400px;
       object-fit: cover;
       border-radius: var(--border-radius);
       border: 1px solid var(--brand-color-1);
     }
 
     figcaption {
-      padding: 1rem;
+      width: 100%;
+      padding: 1rem 0;
       text-align: start;
-      height: 100%;
-      padding: 0 4rem;
     }
 
     figcaption h2 {
@@ -174,16 +167,18 @@ export class NewestCarsCarousel extends LitElement {
     .dialog-content {
       background-color: var(--brand-color-2);
       border: 1px solid var(--brand-color-1);
-      padding: 2rem;
+      padding: 1rem;
       border-radius: var(--border-radius);
-      max-width: 500px;
-      width: 90%;
+      max-width: 90%;
+      width: 500px;
       text-align: center;
+      box-sizing: border-box;
     }
 
     .dialog-content img {
       width: 100%;
       height: auto;
+      max-height: 300px;
       object-fit: cover;
       border-radius: var(--border-radius);
     }
@@ -230,6 +225,29 @@ export class NewestCarsCarousel extends LitElement {
 
     .nav-arrows button:hover {
       background-color: var(--brand-color-5);
+    }
+
+    @media (min-width: 768px) {
+      .carousel-item {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      .carousel-item img {
+        width: 50%;
+        max-height: 500px;
+      }
+
+      figcaption {
+        width: 50%;
+        padding: 0 2rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .carousel-item img {
+        max-height: 600px;
+      }
     }
   `;
 }

@@ -14,9 +14,9 @@ export class Services extends LitElement {
       car_services: { type: Array },
     };
   }
+
   constructor() {
     super();
-
     this.car_services = [
       {
         imageUrl: '/images/services/dealership.jpg',
@@ -38,7 +38,7 @@ export class Services extends LitElement {
 
   render() {
     return html`
-      <section class="services-container">
+      <section>
         ${map(this.car_services, (car) => html`
           <service-card
             .title="${car.title}"
@@ -55,20 +55,39 @@ export class Services extends LitElement {
     :host {
       display: block;
       width: 100%;
-      max-width: var(--max-width);
-      margin: 0rem auto;
+      max-width: 100%;
+      margin: 0 auto;
     }
+
     section {
-      padding: 0rem;
-    }
-    .services-container {
       display: grid;
-      grid-template-columns: repeat(3, minmax(100px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, auto));
+      gap: 2rem;
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 2rem 0 8rem 0;
-      gap: 2rem;
-    } 
+      padding: 2rem 1rem 8rem 1rem; 
+    }
+
+    @media (min-width: 768px) {
+      section {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      section {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      section {
+        padding-left: 4rem;
+        padding-right: 4rem;
+      }
+    }
   `;
 }
 

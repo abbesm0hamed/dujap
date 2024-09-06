@@ -17,13 +17,6 @@ export class FeaturedCars extends LitElement {
 
   constructor() {
     super();
-    this.fetchOptions = {
-      method: 'GET',
-      headers: {
-        'xc-token': import.meta.env.VITE_NOCODB_API_TOKEN,
-        'Content-Type': 'application/json'
-      }
-    };
     this.featured_cars = [];
   }
 
@@ -33,57 +26,24 @@ export class FeaturedCars extends LitElement {
   }
 
   async fetchCarData() {
-    const response = await fetch(
-      import.meta.env.VITE_NOCODB_URL,
-      this.fetchOptions
-    );
-
-    const data = await response.json();
-    this.featured_cars = data.list;
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/featured-cars`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      this.featured_cars = data;
+    } catch (error) {
+      console.error('Error fetching car data:', error);
+    }
   }
-
-  // constructor() {
-  //   super();
-  //
-  //   this.featured_cars = [
-  //     {
-  //       imageUrl: '/images/services/dealership.jpg',
-  //       brand: 'Nissan',
-  //       model: '2024',
-  //       gear: 'Automatic',
-  //       price: '12.000 AED',
-  //       description: 'Discover the most extensive collection of Japanese cars in Dubai. We offer a variety of models to suit all preferences and budgets.',
-  //     },
-  //     {
-  //       imageUrl: '/images/services/car-engine.jpg',
-  //       brand: 'Mazda',
-  //       model: '2023',
-  //       gear: 'Automatic',
-  //       price: '12.000 AED',
-  //       description: 'Enjoy peace of mind with our comprehensive repair warranty, ensuring your car is always in top condition.',
-  //     },
-  //     {
-  //       imageUrl: '/images/services/assurance.webp',
-  //       brand: 'Ferrari',
-  //       model: '2020',
-  //       gear: 'Automatic',
-  //       price: '12.000 AED',
-  //       description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
-  //     },
-  //     {
-  //       imageUrl: '/images/services/assurance.webp',
-  //       brand: 'Mitsu',
-  //       model: '2021',
-  //       gear: 'Automatic',
-  //       price: '12.000 AED',
-  //       description: 'We provide full insurance support, making the process of buying and owning a car seamless and stress-free.',
-  //     }
-  //   ];
-  // }
 
   render() {
     return html`
-      <section >
+      <section>
         <h1><span>Featured</span><span>cars</span></h1>
         <div class="services-container">
           ${map(this.featured_cars, (car) => html`
@@ -91,9 +51,14 @@ export class FeaturedCars extends LitElement {
               .brand="${car.brand}"
               .model="${car.model}"
               .description="${car.description}"
+              .assurance="${car.assurance}"
+              .km="${car.km}"
+              .features="${car.features}"
+              .extras="${car.extras}"
+              .color="${car.color}"
+              .engine="${car.engine}"
               .imageUrl="${car.imageUrl}"
               .price="${car.price}"
-              .gear="${car.gear}"
               class="card"
             ></featured-car-card>
           `)}
@@ -106,34 +71,52 @@ export class FeaturedCars extends LitElement {
     :host {
       display: block;
       width: 100%;
-      max-width: var(--max-width);
+      max-width: 100%;
       margin: 0rem auto;
     }
-    .services-container {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(100px, 1fr));
-      max-width: var(--max-width);
-      margin: 0 auto;
-      gap: 2rem;
-    } 
     section {
       display: block;
-      width: 100%;
+      margin: 4rem auto;
       max-width: var(--max-width);
-      margin: 0rem auto;
+      padding: 0 1rem 0 1rem; 
+    }
+    @media (min-width: 768px) {
+      section {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      section {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+    @media (min-width: 1280px) {
+      section {
+        padding-left: 4rem;
+        padding-right: 4rem;
+      }
     }
     section h1 {
       display:flex;
       justify-content: start;
       align-items:center;
       font-size: 2rem;
-      padding: 4rem 0;
+      padding: 0 0 2rem 0;
       margin: 0;
       gap: 0.8rem;
     }
     section h1 span:first-child {
       color: var(--text-color-2);
     }
+    .services-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      max-width: var(--max-width);
+      margin: 0 auto;
+      gap: 2rem;
+    } 
   `;
 }
 

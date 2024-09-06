@@ -11,13 +11,13 @@ export class FeaturedCars extends LitElement {
        * The items.
        * @type {Array}
        */
-      featured_cars: { type: Array },
+      cars: { type: Array },
     };
   }
 
   constructor() {
     super();
-    this.featured_cars = [];
+    this.cars = [];
   }
 
   async connectedCallback() {
@@ -27,7 +27,7 @@ export class FeaturedCars extends LitElement {
 
   async fetchCarData() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/featured-cars`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/cars`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -35,7 +35,7 @@ export class FeaturedCars extends LitElement {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      this.featured_cars = data;
+      this.cars = data;
     } catch (error) {
       console.error('Error fetching car data:', error);
     }
@@ -46,7 +46,7 @@ export class FeaturedCars extends LitElement {
       <section>
         <h1><span>Featured</span><span>cars</span></h1>
         <div class="services-container">
-          ${map(this.featured_cars, (car) => html`
+          ${map(this.cars, (car) => html`
             <featured-car-card
               .brand="${car.brand}"
               .model="${car.model}"

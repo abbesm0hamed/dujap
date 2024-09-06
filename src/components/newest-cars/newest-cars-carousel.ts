@@ -4,34 +4,15 @@ import { map } from 'lit/directives/map.js';
 
 @customElement('newest-cars-carousel')
 export class NewestCarsCarousel extends LitElement {
-  @property({ type: Array })
-  cars = [
-    {
-      imageUrl: '/images/random.jpeg',
-      title: 'Car 1',
-      description: 'This is a description for Car 1.',
-      price: '2300 AED',
-    },
-    {
-      imageUrl: '/images/services/car-engine.jpg',
-      title: 'Car 2',
-      description: 'This is a description for Car 2.',
-      price: '2300 AED',
-    },
-    {
-      imageUrl: '/images/services/dealership.jpg',
-      title: 'Car 3',
-      description: 'This is a description for Car 3.',
-      price: '2300 AED',
-    },
-    {
-      imageUrl: '/images/random.jpeg',
-      title: 'Car 4',
-      description: 'This is a description for Car 4.',
-      price: '2300 AED',
-    },
-  ];
-
+  static get properties() {
+    return {
+      /**
+       * The items.
+       * @type {Array}
+       */
+      cars: { type: Array },
+    };
+  }
   @state()
   currentSlide = 0;
 
@@ -41,16 +22,49 @@ export class NewestCarsCarousel extends LitElement {
   @state()
   selectedCar = { imageUrl: '', title: '', description: '' };
 
+
+  constructor() {
+    super();
+    this.cars = [];
+  }
+
+  async connectedCallback() {
+    super.connectedCallback();
+    await this.fetchCarData();
+  }
+
+  async fetchCarData() {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/cars`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      this.cars = data;
+      this.selectRandomCars();
+    } catch (error) {
+      console.error('Error fetching car data:', error);
+    }
+  }
+
+  selectRandomCars() {
+    const shuffled = [...this.cars].sort(() => 0.5 - Math.random());
+    this.displayedCars = shuffled.slice(0, 3);
+  }
+
   render() {
     return html`
       <div
         class="carousel"
         style="transform: translateX(-${this.currentSlide * 100}%);"
       >
-        ${map(this.cars, (car) => html`
+        ${map(this.displayedCars, (car) => html`
           <figure class="carousel-item" @click="${() => this.showDialog(car)}">
             <img
-              src=${car.imageUrl}
+              src=${car.imageUrl[0].signedUrl}
               alt="${car.title}"
             />
             <figcaption>

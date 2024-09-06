@@ -37,7 +37,9 @@ export class CarLogoMarquee extends LitElement {
       overflow: hidden;
       margin: 7rem 0 6rem 0;
       padding: 1rem 0;
+      border: 1px solid var(--border-color-1);
       background-color: var(--brand-color-7);
+      box-shadow: 0 0 80px rgb(173 72 72 / 30%);
 
       --size: 5rem;
       --gap: calc(var(--size) / 7);
@@ -45,6 +47,7 @@ export class CarLogoMarquee extends LitElement {
       --scroll-start: 0;
       --scroll-end: calc(-100% - var(--gap));
     }
+
     @media (min-width: 768px) {
       :host{
         margin: 8rem 0;

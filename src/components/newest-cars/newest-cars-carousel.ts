@@ -1,6 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
+import { CarDetails } from '../../types/car';
 
 @customElement('newest-cars-carousel')
 export class NewestCarsCarousel extends LitElement {
@@ -43,7 +44,7 @@ export class NewestCarsCarousel extends LitElement {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      this.cars = data;
+      this.cars = data as CarDetails;
       this.selectRandomCars();
     } catch (error) {
       console.error('Error fetching car data:', error);
@@ -53,6 +54,7 @@ export class NewestCarsCarousel extends LitElement {
   selectRandomCars() {
     const shuffled = [...this.cars].sort(() => 0.5 - Math.random());
     this.displayedCars = shuffled.slice(0, 3);
+    console.log("displayed cars ", this.displayedCars)
   }
 
   render() {
@@ -62,15 +64,32 @@ export class NewestCarsCarousel extends LitElement {
         style="transform: translateX(-${this.currentSlide * 100}%);"
       >
         ${map(this.displayedCars, (car) => html`
-          <figure class="carousel-item" @click="${() => this.showDialog(car)}">
+          <figure
+            class="carousel-item"
+            <!-- intended typo to disactivate dialog -->
+            <!-- @cli ck="${() => this.showDialog(car)}" -->
+          >
             <img
               src=${car.imageUrl[0].signedUrl}
-              alt="${car.title}"
+              alt="${car.model}"
             />
             <figcaption>
-              <h2>${car.title}</h2>
-              <p>${car.description}</p>
-              <p>Price: ${car.price}</p>
+              <div>
+                <h2>${car.brand} | ${car.model} | ${car.color}</h2>
+                <p>${car.description}</p>
+                <span class="price">
+                  <span>Price:</span> 
+                  <h3>${car.price}</h3>
+                </span>
+              </div>
+
+              <div>
+                <p>${car.km}</p>
+                <p><span>Engine:</span> ${car.engine}</p>
+                <p><span>Features:</span> ${car.features}</p>
+                <p><span>Assurance:</span> ${car.assurance}</p>
+                <p><span>Extras:</span> ${car.extras}</p>
+              </div>
             </figcaption>
           </figure>
         `)}
@@ -149,10 +168,14 @@ export class NewestCarsCarousel extends LitElement {
 
     figcaption {
       width: 100%;
+      height: 100%;
       padding: 1rem 0;
       text-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-
+    
     figcaption h2 {
       margin: 0;
       font-size: 1.5rem;
@@ -164,6 +187,30 @@ export class NewestCarsCarousel extends LitElement {
       font-size: 1rem;
       color: var(--text-color);
     }
+
+    figcaption div p span {
+      color: var(--brand-color-3);
+    }
+
+    figcaption div:nth-child(2) {
+      border-top: 1px solid var(--brand-color-1);
+      padding-top: 0.5rem;
+    }
+
+    .price {
+      display: flex;
+      flex-direction: row;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    .price > span {
+      color: var(--brand-color-3)
+}
+    .price h3 {
+      padding: 0;
+      margin: 0;
+    }
+
 
     .dialog {
       position: fixed;

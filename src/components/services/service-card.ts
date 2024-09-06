@@ -31,6 +31,9 @@ export class ServiceCard extends LitElement {
       border: 1px solid var(--brand-color-1);
       overflow: hidden;
     }
+    article:hover {
+      box-shadow: 0 0 100px rgb(115 105 105 / 30%);
+    }
 
     article h2,
     article p {

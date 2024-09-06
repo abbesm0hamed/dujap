@@ -48,17 +48,7 @@ export class FeaturedCars extends LitElement {
         <div class="services-container">
           ${map(this.cars, (car) => html`
             <featured-car-card
-              .brand="${car.brand}"
-              .model="${car.model}"
-              .description="${car.description}"
-              .assurance="${car.assurance}"
-              .km="${car.km}"
-              .features="${car.features}"
-              .extras="${car.extras}"
-              .color="${car.color}"
-              .engine="${car.engine}"
-              .imageUrl="${car.imageUrl}"
-              .price="${car.price}"
+              .car="${car}"
               class="card"
             ></featured-car-card>
           `)}

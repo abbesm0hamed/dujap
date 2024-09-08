@@ -1,18 +1,41 @@
 import { css, html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { map } from 'lit/directives/map.js';
 import './featured-cars/featured-car-card';
+import { createQuery, fetchData } from "../utils/fetcher";
+import { CarDetails } from "../types/car";
+import { Router } from '@vaadin/router';
 
 @customElement('featured-cars')
 export class FeaturedCars extends LitElement {
-  static get properties() {
-    return {
-      /**
-       * The items.
-       * @type {Array}
-       */
-      cars: { type: Array },
-    };
+  @state() private cars: CarDetails[] = [];
+  @state() private isLoading = true;
+  @state() private error: Error | null = null;
+  private unsubscribe: (() => void) | null = null;
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    const query = createQuery(
+      ['cars'],
+      () => fetchData<CarDetails[]>('/cars'),
+      { staleTime: 60000 } // 1 minute
+    );
+    this.unsubscribe = query.subscribe(() => {
+      const result = query.getCurrentResult();
+      this.isLoading = result.isLoading;
+      this.error = result.error as Error | null;
+      if (result.data) {
+        this.cars = result.data;
+      }
+      this.requestUpdate();
+    });
   }
 
   constructor() {
@@ -20,41 +43,53 @@ export class FeaturedCars extends LitElement {
     this.cars = [];
   }
 
-  async connectedCallback() {
-    super.connectedCallback();
-    await this.fetchCarData();
-  }
-
-  async fetchCarData() {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/cars`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      this.cars = data;
-    } catch (error) {
-      console.error('Error fetching car data:', error);
-    }
+  renderSkeleton() {
+    return html`
+      <section>
+        <h1><skeleton-loader width="200px" height="2rem"></skeleton-loader></h1>
+        <div class="services-container">
+          ${[1, 2, 3, 4, 5, 6].map(() => html`
+            <div class="card">
+              <skeleton-loader shape="rect" height="200px"></skeleton-loader>
+              <skeleton-loader width="80%" height="1.5rem" style="margin-top: 1rem;"></skeleton-loader>
+              <skeleton-loader width="60%" height="1rem" style="margin-top: 0.5rem;"></skeleton-loader>
+            </div>
+          `)}
+        </div>
+      </section>
+    `;
   }
 
   render() {
+    if (this.isLoading) {
+      return html`<section>Loading...</section>`;;
+    }
+    if (this.error) {
+      return html`<section>Error: ${this.error.message}</section>`;
+    }
+
+    const displayedCars = this.cars.slice(0, 6);
+
     return html`
       <section>
         <h1><span>Featured</span><span>cars</span></h1>
         <div class="services-container">
-          ${map(this.cars, (car) => html`
+          ${map(displayedCars, (car) => html`
             <featured-car-card
               .car="${car}"
               class="card"
             ></featured-car-card>
           `)}
         </div>
+        <div class="show-more-container">
+          <button @click=${this.navigateToAllCars} class="show-more-button">Show More</button>
+        </div>
       </section>
     `;
+  }
+
+  private navigateToAllCars() {
+    Router.go('/all-cars');
   }
 
   static styles = css`
@@ -106,7 +141,25 @@ export class FeaturedCars extends LitElement {
       max-width: var(--max-width);
       margin: 0 auto;
       gap: 2rem;
-    } 
+    }
+    .show-more-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .show-more-button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: var(--brand-color-8);
+      color: white;
+      border: 1px solid var(--border-color-1);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .show-more-button:hover {
+      background-color: var(--brand-color-7);
+    }
   `;
 }
 

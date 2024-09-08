@@ -5,12 +5,23 @@ import { customElement, property } from "lit/decorators.js";
 export class ServiceCard extends LitElement {
   @property({ type: String })
   title = 'Title';
-
   @property({ type: String })
   description = 'Description';
-
   @property({ type: String })
   imageUrl = '/images/car-eye.jpg';
+
+  render() {
+    return html`
+      <article>
+        <img
+          src=${this.imageUrl}
+          alt="car"
+        />
+        <h2>${this.title}</h2>
+        <p>${this.description}</p>
+      </article>
+    `;
+  }
 
   static styles = css`
     :host {
@@ -47,6 +58,9 @@ export class ServiceCard extends LitElement {
     article p {
       padding: 2rem 0.7rem ;
     }
+    article h2 {
+      padding: 0 1rem ;
+    }
 
     img {
       object-fit: cover;
@@ -55,19 +69,6 @@ export class ServiceCard extends LitElement {
       margin-bottom: 1rem;
     }
   `;
-
-  render() {
-    return html`
-      <article>
-        <img
-          src=${this.imageUrl}
-          alt="car"
-        />
-        <h2>${this.title}</h2>
-        <p>${this.description}</p>
-      </article>
-    `;
-  }
 }
 
 declare global {

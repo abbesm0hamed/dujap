@@ -2,52 +2,43 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { map } from 'lit/directives/map.js';
 import { CarDetails } from '../../types/car';
+import { createQuery, fetchData } from '../../utils/fetcher';
 
 @customElement('newest-cars-carousel')
 export class NewestCarsCarousel extends LitElement {
-  static get properties() {
-    return {
-      /**
-       * The items.
-       * @type {Array}
-       */
-      cars: { type: Array },
-    };
-  }
-  @state()
-  currentSlide = 0;
-
-  @state()
-  dialogVisible = false;
-
-  @state()
-  selectedCar = { imageUrl: '', title: '', description: '' };
+  @state() private cars: CarDetails[] = [];
+  @state() private displayedCars: CarDetails[] = [];
+  @state() private currentSlide = 0;
+  @state() private dialogVisible = false;
+  @state() private selectedCar: CarDetails | null = null;
+  @state() private isLoading = true;
+  @state() private error: Error | null = null;
 
 
-  constructor() {
-    super();
-    this.cars = [];
-  }
-
-  async connectedCallback() {
+  connectedCallback() {
     super.connectedCallback();
-    await this.fetchCarData();
+    const query = createQuery(
+      ['cars'],
+      () => fetchData()<CarDetails[]>('/cars'),
+      { staleTime: 60000 }
+    );
+
+    this.unsubscribe = query.subscribe(() => {
+      const result = query.getCurrentResult();
+      this.isLoading = result.isLoading;
+      this.error = result.error as Error | null;
+      if (result.data) {
+        this.cars = result.data;
+        this.selectRandomCars();
+      }
+      this.requestUpdate();
+    });
   }
 
-  async fetchCarData() {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/cars`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      this.cars = data as CarDetails;
-      this.selectRandomCars();
-    } catch (error) {
-      console.error('Error fetching car data:', error);
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this.unsubscribe) {
+      this.unsubscribe();
     }
   }
 
@@ -56,7 +47,44 @@ export class NewestCarsCarousel extends LitElement {
     this.displayedCars = shuffled.slice(0, 3);
   }
 
+  renderSkeleton() {
+    return html`
+      <div class="carousel">
+        <figure class="carousel-item">
+          <skeleton-loader shape="rect" height="450px"></skeleton-loader>
+          <figcaption>
+            <div>
+              <skeleton-loader width="80%" height="1.5rem"></skeleton-loader>
+              <skeleton-loader width="60%" height="1rem" style="margin-top: 0.5rem;"></skeleton-loader>
+              <span class="price">
+                <skeleton-loader width="40%" height="1rem"></skeleton-loader>
+                <skeleton-loader width="20%" height="1.5rem"></skeleton-loader>
+              </span>
+            </div>
+            <div>
+              ${[1, 2, 3, 4, 5].map(() => html`
+                <skeleton-loader width="70%" height="1rem" style="margin-top: 0.5rem;"></skeleton-loader>
+              `)}
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="nav-arrows">
+        <skeleton-loader shape="circle" width="40px" height="40px"></skeleton-loader>
+        <skeleton-loader shape="circle" width="40px" height="40px"></skeleton-loader>
+      </div>
+    `;
+  }
+
   render() {
+    if (this.isLoading) {
+      return html`<section>Loading...</section>`;
+    }
+
+    if (this.error) {
+      return html`<section>Error: ${this.error.message}</section>`;
+    }
+
     return html`
       <div
         class="carousel"
@@ -307,6 +335,13 @@ export class NewestCarsCarousel extends LitElement {
       .carousel-item img {
         max-height: 600px;
       }
+    }
+
+    .card {
+      background-color: var(--card-background-color, #ffffff);
+      border-radius: var(--card-border-radius, 8px);
+      padding: var(--card-padding, 1rem);
+      box-shadow: var(--card-box-shadow, 0 2px 4px rgba(0,0,0,0.1));
     }
   `;
 }

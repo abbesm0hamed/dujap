@@ -82,6 +82,7 @@ export class FeaturedCarCard extends LitElement {
     article {
       display: grid;
       height: 100%;
+      background-color: var(--brand-color-8);
       grid-template-rows: 0.2fr 0.2fr auto;
       gap: 1rem;
       border-radius: var(--border-radius);

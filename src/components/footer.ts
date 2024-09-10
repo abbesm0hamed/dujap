@@ -59,7 +59,7 @@ export class AppFooter extends LitElement {
         </section>
         <div class="footer-copyright">
           <p>
-            © 2024 <a target="_blank" href="https://www.holmena.com/">HOLMENA</a>.
+            © 2024 <a target="_blank" href="https://www.holmena.com/">developed by HOLMENA</a>.
           </p>
           <address class="footer-social">
             <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
@@ -87,6 +87,7 @@ export class AppFooter extends LitElement {
     :host {
       display: block;
       position: relative;
+      background-color: var(--dark-bg-color)
     }
 
     .contact {

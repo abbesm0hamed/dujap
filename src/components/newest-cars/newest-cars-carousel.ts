@@ -1,102 +1,69 @@
 import { css, html, LitElement } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import { map } from 'lit/directives/map.js';
+import { customElement, state } from 'lit/decorators.js';
+import { Task } from '@lit/task';
+import { fetchData } from '../../utils/fetcher';
 import { CarDetails } from '../../types/car';
-import { createQuery, fetchData } from '../../utils/fetcher';
 
 @customElement('newest-cars-carousel')
 export class NewestCarsCarousel extends LitElement {
-  @state() private cars: CarDetails[] = [];
   @state() private displayedCars: CarDetails[] = [];
   @state() private currentSlide = 0;
   @state() private dialogVisible = false;
   @state() private selectedCar: CarDetails | null = null;
-  @state() private isLoading = true;
-  @state() private error: Error | null = null;
 
+  private carsTask = new Task(
+    this,
+    async () => {
+      const cars = await fetchData<CarDetails[]>('/cars');
+      if (Array.isArray(cars) && cars.length > 0) {
+        this.selectRandomCars(cars);
+      } else {
+        console.warn('No cars data received or data is not an array');
+        this.displayedCars = [];
+      }
+      return cars;
+    }
+  );
 
   connectedCallback() {
     super.connectedCallback();
-    const query = createQuery(
-      ['cars'],
-      () => fetchData()<CarDetails[]>('/cars'),
-      { staleTime: 60000 }
-    );
-
-    this.unsubscribe = query.subscribe(() => {
-      const result = query.getCurrentResult();
-      this.isLoading = result.isLoading;
-      this.error = result.error as Error | null;
-      if (result.data) {
-        this.cars = result.data;
-        this.selectRandomCars();
-      }
-      this.requestUpdate();
-    });
+    this.carsTask.run();
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-
-  selectRandomCars() {
-    const shuffled = [...this.cars].sort(() => 0.5 - Math.random());
+  selectRandomCars(cars: CarDetails[]) {
+    const shuffled = [...cars].sort(() => 0.5 - Math.random());
     this.displayedCars = shuffled.slice(0, 3);
-  }
-
-  renderSkeleton() {
-    return html`
-      <div class="carousel">
-        <figure class="carousel-item">
-          <skeleton-loader shape="rect" height="450px"></skeleton-loader>
-          <figcaption>
-            <div>
-              <skeleton-loader width="80%" height="1.5rem"></skeleton-loader>
-              <skeleton-loader width="60%" height="1rem" style="margin-top: 0.5rem;"></skeleton-loader>
-              <span class="price">
-                <skeleton-loader width="40%" height="1rem"></skeleton-loader>
-                <skeleton-loader width="20%" height="1.5rem"></skeleton-loader>
-              </span>
-            </div>
-            <div>
-              ${[1, 2, 3, 4, 5].map(() => html`
-                <skeleton-loader width="70%" height="1rem" style="margin-top: 0.5rem;"></skeleton-loader>
-              `)}
-            </div>
-          </figcaption>
-        </figure>
-      </div>
-      <div class="nav-arrows">
-        <skeleton-loader shape="circle" width="40px" height="40px"></skeleton-loader>
-        <skeleton-loader shape="circle" width="40px" height="40px"></skeleton-loader>
-      </div>
-    `;
+    this.requestUpdate();
   }
 
   render() {
-    if (this.isLoading) {
-      return html`<section>Loading...</section>`;
-    }
-
-    if (this.error) {
-      return html`<section>Error: ${this.error.message}</section>`;
-    }
-
     return html`
-      <div
-        class="carousel"
-        style="transform: translateX(-${this.currentSlide * 100}%);"
-      >
-        ${map(this.displayedCars, (car) => html`
+    ${this.carsTask.render({
+      pending: () => html`<section>Loading...</section>`,
+      complete: () => this.renderCarousel(),
+      error: (error) => html`<section>Error: ${error.message}</section>`
+    })}
+  `;
+  }
+
+  renderCarousel() {
+    if (!Array.isArray(this.displayedCars) || this.displayedCars.length === 0) {
+      return html`<section>No cars available to display.</section>`;
+    }
+    return html`
+    <div
+      class="carousel"
+      style="transform: translateX(-${this.currentSlide * 100}%);"
+    >
+      ${this.displayedCars.map((car) => {
+      const imageUrl = car.imageUrl?.[0]?.signedUrl || '/path/to/default-image.jpg'; // Fallback image
+      return html`
           <figure
             class="carousel-item"
-            @cli ck="${() => this.showDialog(car)}" // intended typo to disactivate the dialog
+            @click="${() => this.showDialog(car)}"
           >
             <img
-              src=${car.imageUrl[0].signedUrl}
+              src="${imageUrl}" 
               alt="${car.model}"
             />
             <figcaption>
@@ -118,32 +85,38 @@ export class NewestCarsCarousel extends LitElement {
               </div>
             </figcaption>
           </figure>
-        `)}
-      </div>
+        `;
+    })}
+    </div>
 
-      ${this.dialogVisible ? html`
-        <div class="dialog">
-          <div class="dialog-content">
-            <img src=${this.selectedCar.imageUrl} alt="${this.selectedCar.title}" />
-            <h2>${this.selectedCar.title}</h2>
-            <p>${this.selectedCar.description}</p>
-            <button @click="${this.closeDialog}">Close</button>
-          </div>
+    ${this.renderDialog()}
+
+    <div class="nav-arrows">
+      <button @click="${this.prevSlide}">
+        <img src='/icons/chevron-left.svg' alt="left" />
+      </button>
+      <button @click="${this.nextSlide}">
+        <img src='/icons/chevron-right.svg' alt="right" />
+      </button>
+    </div>
+  `;
+  }
+
+  renderDialog() {
+    if (!this.dialogVisible || !this.selectedCar) return '';
+    return html`
+      <div class="dialog">
+        <div class="dialog-content">
+          <img src=${this.selectedCar.imageUrl?.[0]?.signedUrl || ''} alt="${this.selectedCar.model}" />
+          <h2>${this.selectedCar.brand} ${this.selectedCar.model}</h2>
+          <p>${this.selectedCar.description}</p>
+          <button @click="${this.closeDialog}">Close</button>
         </div>
-      ` : ''}
-
-      <div class="nav-arrows">
-        <button @click="${this.prevSlide}">
-          <img src='/icons/chevron-left.svg' alt="left" />
-        </button>
-        <button @click="${this.nextSlide}">
-          <img src='/icons/chevron-right.svg' alt="right" />
-        </button>
       </div>
     `;
   }
 
-  showDialog(car: { imageUrl: string; title: string; description: string }) {
+  showDialog(car: CarDetails) {
     this.selectedCar = car;
     this.dialogVisible = true;
   }
@@ -153,11 +126,11 @@ export class NewestCarsCarousel extends LitElement {
   }
 
   prevSlide() {
-    this.currentSlide = (this.currentSlide === 0) ? this.cars.length - 1 : this.currentSlide - 1;
+    this.currentSlide = (this.currentSlide === 0) ? this.displayedCars.length - 1 : this.currentSlide - 1;
   }
 
   nextSlide() {
-    this.currentSlide = (this.currentSlide === this.cars.length - 1) ? 0 : this.currentSlide + 1;
+    this.currentSlide = (this.currentSlide === this.displayedCars.length - 1) ? 0 : this.currentSlide + 1;
   }
 
   static styles = css`
@@ -231,12 +204,11 @@ export class NewestCarsCarousel extends LitElement {
     }
     .price > span {
       color: var(--brand-color-3)
-}
+    }
     .price h3 {
       padding: 0;
       margin: 0;
     }
-
 
     .dialog {
       position: fixed;
@@ -335,13 +307,6 @@ export class NewestCarsCarousel extends LitElement {
       .carousel-item img {
         max-height: 600px;
       }
-    }
-
-    .card {
-      background-color: var(--card-background-color, #ffffff);
-      border-radius: var(--card-border-radius, 8px);
-      padding: var(--card-padding, 1rem);
-      box-shadow: var(--card-box-shadow, 0 2px 4px rgba(0,0,0,0.1));
     }
   `;
 }

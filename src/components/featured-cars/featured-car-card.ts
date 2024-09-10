@@ -25,19 +25,25 @@ export class FeaturedCarCard extends LitElement {
     return html`
       <figure @click="${this.toggleDialog}">
         <figcaption>
-          <h2>${this.car.brand} | ${this.car.model} | ${this.car.color}</h2>
-          <span class="price">
+          <div class="title-container">
+            <h2>${this.car.brand} | ${this.car.model} | ${this.car.color}</h2>
+          </div>
+          <div class="price-container">
             <span>Price:</span> 
             <h3>${this.car.price}</h3>
-          </span>
+          </div>
         </figcaption>
         <article>
-          <p>${this.car.description}</p>
-          <p>${this.car.km}</p>
-          <img
-            src=${this.car.imageUrl[0].signedUrl}
-            alt="car"
-          />
+          <div class="content">
+            <p>${this.car.description}</p>
+            <p>${this.car.km}</p>
+          </div>
+          <div class="image-container">
+            <img
+              src=${this.car?.imageUrl?.[0]?.signedUrl}
+              alt="car"
+            />
+          </div>
         </article>
       </figure>
 
@@ -73,46 +79,96 @@ export class FeaturedCarCard extends LitElement {
     }
 
     figure {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
       margin: 0;
       padding: 0;
       cursor: pointer;
       transition: transform 0.3s ease;
     }
 
-    article {
-      display: grid;
-      height: 100%;
+    figcaption {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
       background-color: var(--brand-color-8);
-      grid-template-rows: 0.2fr 0.2fr auto;
-      gap: 1rem;
-      border-radius: var(--border-radius);
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+      border: 1px solid var(--border-color-1);
+      border-bottom: none;
+      height: 120px; /* Set a fixed height for figcaption */
+    }
+
+    .title-container {
+      height: 60px; /* Set a fixed height for the title */
+      overflow: hidden;
+    }
+
+    .title-container h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .price-container {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .price-container span {
+      color: var(--brand-color-3);
+    }
+
+    .price-container h3 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    article {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      background-color: var(--brand-color-8);
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
       border: 1px solid var(--border-color-1);
       overflow: hidden;
-      padding: 1.5rem;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       transition: box-shadow 0.3s ease;
+    }
+
+    .content {
+      padding: 1.5rem;
+      flex-grow: 1;
+      height: 80px; /* Set a fixed height for the content */
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .image-container {
+      height: 450px;
+      overflow: hidden;
     }
 
     figure:hover article {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
-    article h2,
     article p {
-      display: flex;
-      justify-content: start;
-      align-items: start;
-      text-align: center;
       margin: 0;
+      line-height: 1.4;
     }
 
     img {
       object-fit: cover;
       width: 100%;
-      height: 450px;
+      height: 100%;
       margin: 0;
-      border-bottom-left-radius: var(--border-radius);
-      border-bottom-right-radius: var(--border-radius);
     }
 
     .dialog-content p span {

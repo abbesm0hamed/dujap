@@ -11,7 +11,7 @@ export class Navbar extends LitElement {
   render() {
     return html`
       <header>
-        <a href="/" class="logo">Jar</a>
+        <a href="/" class="logo">DuJap</a>
         <button
           class="mobile-menu-button"
           @click=${this.toggleMobileMenu}

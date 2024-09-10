@@ -1,12 +1,12 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import './components/navbar'
-import './components/footer'
-import './components/hero'
-import './components/services'
-import './components/newest-cars'
-import './components/featured-cars'
-import './components/car-logos-marquee'
+import '../components/navbar'
+import '../components/footer'
+import '../components/hero'
+import '../components/services'
+import '../components/newest-cars'
+import '../components/featured-cars'
+import '../components/car-logos-marquee'
 
 /**
  * An example element.
@@ -57,7 +57,9 @@ export class LandingPage extends LitElement {
           <brand-services id="services"></brand-services>
           <newest-cars id="new-cars"></newest-cars>
           <featured-cars id="featured-cars"></featured-cars>
-          <car-logo-marquee id="brands"></car-logo-marquee>
+          <car-logo-marquee
+            id="brands"
+          ></car-logo-marquee>
         </main>
         <app-footer id="contact"></app-footer>
       </div>

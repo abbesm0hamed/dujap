@@ -62,12 +62,11 @@ export class FeaturedCars extends LitElement {
 
   render() {
     if (this.isLoading) {
-      return html`<section>Loading...</section>`;;
+      return html`<section>Loading...</section>`;
     }
     if (this.error) {
       return html`<section>Error: ${this.error.message}</section>`;
     }
-
     const displayedCars = this.cars.slice(0, 6);
 
     return html`

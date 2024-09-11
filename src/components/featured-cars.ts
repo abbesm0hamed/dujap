@@ -97,6 +97,8 @@ export class FeaturedCars extends LitElement {
       width: 100%;
       max-width: 100%;
       margin: 0rem auto;
+      border-top: 1px solid var(--light-color-op);
+      box-shadow: 0 -30px 20px -5px rgba(39, 57, 80, 0.1); 
     }
     section {
       display: block;

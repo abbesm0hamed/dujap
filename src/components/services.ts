@@ -57,6 +57,12 @@ export class Services extends LitElement {
       width: 100%;
       max-width: 100%;
       margin: 0 auto;
+      background: rgb(20,27,36);
+      background: linear-gradient(0deg, rgba(20,27,36,1) 0%, rgba(13,15,18,1) 35%, rgba(0,0,0,1) 100%);
+      border-bottom: 1px solid var(--light-color-op);
+      box-shadow: 0 30px 20px -5px rgba(39, 57, 80, 0.1); 
+      z-index: 1;
+      position: relative;
     }
 
     section {

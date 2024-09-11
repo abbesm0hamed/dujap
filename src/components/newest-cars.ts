@@ -17,16 +17,14 @@ export class NewestCars extends LitElement {
     :host {
       display: block;
       background-color: var(--brand-color-2);
-      border-top: 1px solid var(--light-color-op);
-      border-bottom: 1px solid var(--light-color-op);
       width: 100%;
     }
 
     section {
       display: block;
-      margin: 4rem auto;
+      margin: 0 auto;
       max-width: var(--max-width);
-      padding: 0 1rem 0 1rem; 
+      padding: 4rem 1rem; 
     }
 
     h1 {

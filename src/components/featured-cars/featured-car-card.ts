@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { CarDetails } from "../../types/car";
+import { sharedStyles } from "../../styles/shared-styles";
 
 @customElement('featured-car-card')
 export class FeaturedCarCard extends LitElement {
@@ -23,8 +24,12 @@ export class FeaturedCarCard extends LitElement {
 
   render() {
     return html`
-      <figure @click="${this.toggleDialog}">
-        <figcaption>
+      <figure
+        @click="${this.toggleDialog}"
+      >
+        <figcaption
+          class="featured-card-gradient-bg"
+        >
           <div class="title-container">
             <h2>${this.car.brand} | ${this.car.model} | ${this.car.color}</h2>
           </div>
@@ -33,7 +38,7 @@ export class FeaturedCarCard extends LitElement {
             <h3>${this.car.price}</h3>
           </div>
         </figcaption>
-        <article>
+        <article class="featured-card-gradient-bg">
           <div class="content">
             <p>${this.car.description}</p>
             <p>${this.car.km}</p>
@@ -68,7 +73,9 @@ export class FeaturedCarCard extends LitElement {
     this.dialogVisible = !this.dialogVisible;
   }
 
-  static styles = css`
+  static styles = [
+    sharedStyles,
+    css`
     :host {
       display: block;
       width: 100%;
@@ -86,6 +93,7 @@ export class FeaturedCarCard extends LitElement {
       padding: 0;
       cursor: pointer;
       transition: transform 0.3s ease;
+      overflow: hidden;
     }
 
     figcaption {
@@ -93,12 +101,11 @@ export class FeaturedCarCard extends LitElement {
       flex-direction: column;
       justify-content: space-between;
       padding: 1rem;
-      background-color: var(--brand-color-8);
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
       border: 1px solid var(--border-color-1);
       border-bottom: none;
-      height: 120px; /* Set a fixed height for figcaption */
+      height: 120px;
     }
 
     .title-container {
@@ -131,7 +138,6 @@ export class FeaturedCarCard extends LitElement {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      background-color: var(--brand-color-8);
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
       border: 1px solid var(--border-color-1);
@@ -281,7 +287,7 @@ export class FeaturedCarCard extends LitElement {
         opacity: 1;
       }
     }
-  `;
+  `];
 }
 
 declare global {

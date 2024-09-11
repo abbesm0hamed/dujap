@@ -39,11 +39,13 @@ export class ServiceCard extends LitElement {
       grid-template-rows: auto 0.6fr 1fr;
       gap: 1rem;
       border-radius: var(--border-radius);
-      border: 1px solid var(--brand-color-1);
+      border: 1px solid rgba(255,255,255, 0.2);
       overflow: hidden;
+background: rgb(33,38,42);
+background: linear-gradient(180deg, rgba(33,38,42,1) 0%, rgba(18,20,23,1) 35%, rgba(11,13,15,1) 100%);
     }
     article:hover {
-      box-shadow: 0 0 100px rgb(115 105 105 / 30%);
+      box-shadow: 0 0 30px -10px rgb(115 105 105 / 40%);
     }
 
     article h2,
@@ -67,6 +69,7 @@ export class ServiceCard extends LitElement {
       width: 100%;
       height: 300px;
       margin-bottom: 1rem;
+      border-bottom:1px solid rgba(255,255,255, 0.2);
     }
   `;
 }

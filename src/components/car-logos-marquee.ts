@@ -5,14 +5,16 @@ import { customElement } from 'lit/decorators.js';
 export class CarLogoMarquee extends LitElement {
   render() {
     return html`
-      <div class="marquee-container">
-        <div class="marquee">
-          ${this.renderLogos()}
+      <section>
+        <div class="marquee-container">
+          <div class="marquee">
+            ${this.renderLogos()}
+          </div>
+          <div class="marquee" aria-hidden="true">
+            ${this.renderLogos()}
+          </div>
         </div>
-        <div class="marquee" aria-hidden="true">
-          ${this.renderLogos()}
-        </div>
-      </div>
+      </section>
     `;
   }
 
@@ -33,13 +35,19 @@ export class CarLogoMarquee extends LitElement {
   static styles = css`
     :host {
       display: block;
+      background: rgb(20,27,36);
+      background: linear-gradient(180deg, rgba(20,27,36,1) 0%, rgba(13,15,18,1) 35%, rgba(0,0,0,1) 100%);
+      padding: 2rem 0 6rem 0
+    }
+
+    section {
+      display: block;
       width: 100%;
       overflow: hidden;
-      margin: 7rem 0 6rem 0;
       padding: 1rem 0;
       border: 1px solid var(--border-color-1);
       background-color: var(--brand-color-7);
-      box-shadow: 0 0 80px rgb(173 72 72 / 30%);
+      box-shadow: 0 0 80px rgb(43 91 62 / 30%);
 
       --size: 5rem;
       --gap: calc(var(--size) / 7);
@@ -49,12 +57,12 @@ export class CarLogoMarquee extends LitElement {
     }
 
     @media (min-width: 768px) {
-      :host{
+      section{
         margin: 8rem 0;
       }
     }
     @media (min-width: 1024px) {
-      :host{
+      section{
         margin: 10rem 0;
       }
     }

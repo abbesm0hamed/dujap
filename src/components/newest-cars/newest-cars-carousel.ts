@@ -56,7 +56,7 @@ export class NewestCarsCarousel extends LitElement {
       style="transform: translateX(-${this.currentSlide * 100}%);"
     >
       ${this.displayedCars.map((car) => {
-      const imageUrl = car.imageUrl?.[0]?.signedUrl || '/path/to/default-image.jpg'; // Fallback image
+      const imageUrl = car.imageUrl?.[0]?.signedUrl || '/images/random.jpeg';
       return html`
           <figure
             class="carousel-item"

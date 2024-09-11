@@ -62,9 +62,18 @@ export class AppFooter extends LitElement {
             © 2024 <a target="_blank" href="https://www.holmena.com/">developed by HOLMENA</a>.
           </p>
           <address class="footer-social">
-            <a href="#"><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
-            <a href="#"><img src="/icons/socials/facebook.svg" alt="facebook" width="20" /></a>
-            <a href="#"><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
+            <a
+              target="_blank"
+              href="https://instagram.com/DuJapCars"
+            ><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
+            <a
+              target="_blank"
+              href="https://facebook.com/DuJapCars"
+            ><img src="/icons/socials/facebook.svg" alt="facebook" width="20" /></a>
+            <a
+              target="_blank"
+              href="https://tiktok.com/@dujap.cars"
+            ><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
           </address>
         </div>
         <a
@@ -87,7 +96,7 @@ export class AppFooter extends LitElement {
     :host {
       display: block;
       position: relative;
-      background-color: var(--dark-bg-color)
+      background-color: black;
     }
 
     .contact {

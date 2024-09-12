@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import '../components/featured-cars/featured-car-card';
 import { createQuery, fetchData } from "../utils/fetcher";
 import { CarDetails } from "../types/car";
@@ -19,17 +19,44 @@ export class AllCars extends LitElement {
     color: ''
   };
 
-  private unsubscribe: (() => void) | null = null;
+  @property({ type: Number }) refreshInterval = 60000; // 1 minute by default
+
+  private query: ReturnType<typeof createQuery> | null = null;
+  private refreshTimer: number | null = null;
 
   connectedCallback() {
     super.connectedCallback();
-    const query = createQuery(
+    this.fetchCars();
+    this.startRefreshTimer();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.unsubscribeFromQuery();
+    this.stopRefreshTimer();
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has('filters')) {
+      this.applyFilters();
+    }
+    if (changedProperties.has('refreshInterval')) {
+      this.restartRefreshTimer();
+    }
+  }
+
+  private fetchCars() {
+    this.unsubscribeFromQuery();
+    this.isLoading = true;
+    this.error = null;
+
+    this.query = createQuery(
       ['cars'],
       () => fetchData<CarDetails[]>('/cars'),
-      { staleTime: 60000 } // 1 minute
+      { staleTime: 0 } // Always fetch fresh data
     );
-    this.unsubscribe = query.subscribe(() => {
-      const result = query.getCurrentResult();
+
+    this.query.subscribe((result) => {
       this.isLoading = result.isLoading;
       this.error = result.error as Error | null;
       if (result.data) {
@@ -40,11 +67,29 @@ export class AllCars extends LitElement {
     });
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    if (this.unsubscribe) {
-      this.unsubscribe();
+  private unsubscribeFromQuery() {
+    if (this.query) {
+      this.query.unsubscribe();
+      this.query = null;
     }
+  }
+
+  private startRefreshTimer() {
+    this.refreshTimer = window.setInterval(() => {
+      this.fetchCars();
+    }, this.refreshInterval);
+  }
+
+  private stopRefreshTimer() {
+    if (this.refreshTimer !== null) {
+      window.clearInterval(this.refreshTimer);
+      this.refreshTimer = null;
+    }
+  }
+
+  private restartRefreshTimer() {
+    this.stopRefreshTimer();
+    this.startRefreshTimer();
   }
 
   private applyFilters() {
@@ -58,7 +103,6 @@ export class AllCars extends LitElement {
       );
       return modelMatch && brandMatch && colorMatch && priceMatch;
     });
-    this.requestUpdate();
   }
 
   private handleFilterChange(e: Event) {
@@ -70,17 +114,15 @@ export class AllCars extends LitElement {
       ...this.filters,
       [name]: value
     };
-
-    this.applyFilters();
   }
+
   render() {
-    if (this.isLoading) {
-      return html`<div class="loading">Loading...</div>`;
-    }
-    if (this.error) {
-      return html`<div>Error: ${this.error.message}</div>`;
-    }
     return html`
+      <header>
+        <nav>
+          <a href="/" class="logo">DuJap Cars</a>
+        </nav>
+      </header>
       <section>
         <h1>All Cars</h1>
         <div class="filters">
@@ -91,13 +133,16 @@ export class AllCars extends LitElement {
           <input name="color" placeholder="Color" @input=${this.handleFilterChange}>
         </div>
         <div class="cars-container">
-          ${this.filteredCars.map(car => html`
-            <featured-car-card .car="${car}"></featured-car-card>
-          `)}
+          ${this.isLoading ? html`<div class="loading">Loading...</div>` :
+        this.error ? html`<div class="error">Error: ${this.error.message}</div>` :
+          this.filteredCars.map(car => html`
+              <featured-car-card .car="${car}"></featured-car-card>
+            `)
+      }
         </div>
-        ${this.filteredCars.length === 0 ? html`<p class="no-results">No cars match the current filters.</p>` : ''}
+        ${this.filteredCars.length === 0 && !this.isLoading ? html`<p class="no-results">No cars match the current filters.</p>` : ''}
       </section>
-      </section>
+      <app-footer id="contact" class="footer"></app-footer>
     `;
   }
 
@@ -125,6 +170,40 @@ export class AllCars extends LitElement {
       background: linear-gradient(180deg, rgba(20,27,36,1) 0%, rgba(13,15,18,1) 35%, rgba(0,0,0,1) 100%);
     }
 
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--brand-color-4);
+    }
+    header {
+      display: block;
+      position: fixed;
+      width: 100%;
+      max-width: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    nav {
+      display: block;
+      margin: 0 auto;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(70px);
+      max-width: var(--max-width, 1250px) !important;
+      padding: 1rem 1rem; 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header a {
+      text-decoration: none;
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
     section {
       display: block;
       margin: 0 auto;
@@ -132,19 +211,19 @@ export class AllCars extends LitElement {
       padding: 6rem 1rem; 
     }
     @media (min-width: 768px) {
-      section, .loading { 
+      section, .loading, nav { 
         padding-left: 2rem;
         padding-right: 2rem;
       }
     }
     @media (min-width: 1024px) {
-      section, .loading { 
+      section, .loading, nav { 
         padding-left: 3rem;
         padding-right: 3rem;
       }
     }
     @media (min-width: 1280px) {
-      section, .loading { 
+      section, .loading, nav { 
         padding-left: 4rem;
         padding-right: 4rem;
       }
@@ -166,6 +245,19 @@ export class AllCars extends LitElement {
       border-radius: var(--border-radius);
       background-color: var(--background-color-2);
       color: var(--text-color-1);
+    }
+    .footer {
+      border-top: 1px solid var(--light-color-op)
+    }
+
+    .loading, .error {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.2rem;
+    }
+    .error {
+      color: #ff6b6b;
     }
   `];
 }

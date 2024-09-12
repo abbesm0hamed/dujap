@@ -49,42 +49,43 @@ export class Navbar extends LitElement {
   private renderNavLinks() {
     return html`
       <li>
-        <a href="#top" class="nav-link">Home</a>
+        <a @click=${() => this.navigateTo('#top')} class="nav-link">Home</a>
       </li>
       <li>
-        <a @click=${() => this.scrollToSection("services")} class="nav-link">Services</a>
+        <a @click=${() => this.navigateTo('/#services')} class="nav-link">Services</a>
       </li>
       <li>
-        <a @click=${() => this.scrollToSection('new-cars')} class="nav-link">New Cars</a>
+        <a @click=${() => this.navigateTo('/#new-cars')} class="nav-link">New Cars</a>
       </li>
       <li>
-        <a @click=${() => this.scrollToSection('featured-cars')} class="nav-link">Featured Cars</a>
+        <a @click=${() => this.navigateTo('/#featured-cars')} class="nav-link">Featured Cars</a>
       </li>
       <li>
-        <a @click=${() => this.scrollToSection('brands')} class="nav-link">Brands</a>
+        <a @click=${() => this.navigateTo('/#brands')} class="nav-link">Brands</a>
       </li>
       <li class="contact-button">
-        <a 
-          @click=${() => this.scrollToSection('contact')} 
-          class="nav-link"
-        >Contact</a>
+        <a @click=${() => this.navigateTo('/#contact')} class="nav-link">Contact</a>
       </li>
     `;
   }
 
-  private scrollToSection(sectionId: string) {
-    this.dispatchEvent(new CustomEvent('navigate-to-section', {
-      detail: { sectionId },
+  private navigateTo(path: string) {
+    this.dispatchEvent(new CustomEvent('navigate', {
+      detail: { path },
       bubbles: true,
-      composed: true,
+      composed: true
     }));
+    this.closeMobileMenu();
   }
+
   private toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
+
   private closeMobileMenu() {
     this.mobileMenuOpen = false;
   }
+
   private get isMobile() {
     return window.innerWidth <= 1024;
   }

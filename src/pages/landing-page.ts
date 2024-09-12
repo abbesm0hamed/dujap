@@ -16,25 +16,18 @@ import '../components/car-logos-marquee'
  */
 @customElement('landing-page')
 export class LandingPage extends LitElement {
-  /**
-   * Copy for the read the docs hint.
-   */
   @property()
-  docsHint = 'Click on the Vite and Lit logos to learn more'
-
-  /**
-   * The number of times the button has been clicked.
-   */
+  docsHint = 'dujap cars at your service'
   @property({ type: Number })
   count = 0
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('navigate-to-section', this.handleNavigation);
+    window.addEventListener('navigate-to-section', this.handleNavigation as EventListener);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('navigate-to-section', this.handleNavigation);
+    window.removeEventListener('navigate-to-section', this.handleNavigation as EventListener);
     super.disconnectedCallback();
   }
 
@@ -51,6 +44,7 @@ export class LandingPage extends LitElement {
   render() {
     return html`
       <div class="layout">
+        <app-navbar id="top"></app-navbar>
         <main>
           <landing-hero></landing-hero>
           <brand-services id="services"></brand-services>
@@ -60,6 +54,7 @@ export class LandingPage extends LitElement {
             id="brands"
           ></car-logo-marquee>
         </main>
+        <app-footer id="contact"></app-footer>
       </div>
     `
   }

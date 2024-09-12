@@ -21,11 +21,20 @@ export class FeaturedCars extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.fetchCars();
+  }
+
+  private fetchCars() {
     const query = createQuery(
       ['cars'],
       () => fetchData<CarDetails[]>('/cars'),
-      { staleTime: 60000 } // 1 minute
+      {
+        staleTime: 60000, // 1 minute
+        refetchOnMount: 'always', // Always refetch when the component mounts
+        refetchOnWindowFocus: true, // Refetch when the window regains focus
+      }
     );
+
     this.unsubscribe = query.subscribe(() => {
       const result = query.getCurrentResult();
       this.isLoading = result.isLoading;
@@ -35,11 +44,6 @@ export class FeaturedCars extends LitElement {
       }
       this.requestUpdate();
     });
-  }
-
-  constructor() {
-    super();
-    this.cars = [];
   }
 
   renderSkeleton() {

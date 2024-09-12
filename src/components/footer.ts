@@ -68,7 +68,7 @@ export class AppFooter extends LitElement {
             ><img src="/icons/socials/instagram.svg" alt="instagram" width="20" /></a>
             <a
               target="_blank"
-              href="https://facebook.com/DuJapCars"
+              href="https://www.facebook.com/share/HqWpLRkZXjcv3GGh/?mibextid=qi2Omg"
             ><img src="/icons/socials/facebook.svg" alt="facebook" width="20" /></a>
             <a
               target="_blank"
@@ -97,6 +97,7 @@ export class AppFooter extends LitElement {
       display: block;
       position: relative;
       background-color: black;
+      z-index: 999;
     }
 
     .contact {

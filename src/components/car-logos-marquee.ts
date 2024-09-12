@@ -37,7 +37,7 @@ export class CarLogoMarquee extends LitElement {
       display: block;
       background: rgb(20,27,36);
       background: linear-gradient(180deg, rgba(20,27,36,1) 0%, rgba(13,15,18,1) 35%, rgba(0,0,0,1) 100%);
-      padding: 2rem 0 6rem 0
+      padding: 0 0 2rem 0;
     }
 
     section {
@@ -47,7 +47,7 @@ export class CarLogoMarquee extends LitElement {
       padding: 1rem 0;
       border: 1px solid var(--border-color-1);
       background-color: var(--brand-color-7);
-      box-shadow: 0 0 80px rgb(43 91 62 / 30%);
+      box-shadow: 0 0 80px rgb(43 90 91 / 30%);
 
       --size: 5rem;
       --gap: calc(var(--size) / 7);

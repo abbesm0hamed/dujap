@@ -50,7 +50,6 @@ export class LandingPage extends LitElement {
   }
   render() {
     return html`
-      <app-navbar id="top"></app-navbar>
       <div class="layout">
         <main>
           <landing-hero></landing-hero>
@@ -61,7 +60,6 @@ export class LandingPage extends LitElement {
             id="brands"
           ></car-logo-marquee>
         </main>
-        <app-footer id="contact"></app-footer>
       </div>
     `
   }

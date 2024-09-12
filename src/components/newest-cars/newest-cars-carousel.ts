@@ -39,7 +39,7 @@ export class NewestCarsCarousel extends LitElement {
   render() {
     return html`
     ${this.carsTask.render({
-      pending: () => html`<section>Loading...</section>`,
+      pending: () => html`<section class="loading">Loading...</section>`,
       complete: () => this.renderCarousel(),
       error: (error) => html`<section>Error: ${error.message}</section>`
     })}
@@ -60,7 +60,6 @@ export class NewestCarsCarousel extends LitElement {
       return html`
           <figure
             class="carousel-item"
-            @click="${() => this.showDialog(car)}"
           >
             <img
               src="${imageUrl}" 
@@ -72,12 +71,12 @@ export class NewestCarsCarousel extends LitElement {
                 <p>${car.description}</p>
                 <span class="price">
                   <span>Price:</span> 
-                  <h3>${car.price}</h3>
+                  <h3>${car.price} AED</h3>
                 </span>
               </div>
 
               <div>
-                <p>${car.km}</p>
+                <p><span>kilometerage:</span> ${car.km}</p>
                 <p><span>Engine:</span> ${car.engine}</p>
                 <p><span>Features:</span> ${car.features}</p>
                 <p><span>Assurance:</span> ${car.assurance}</p>
@@ -138,6 +137,12 @@ export class NewestCarsCarousel extends LitElement {
       display: block;
       width: 100%;
       overflow: hidden;
+    }
+    .loading {
+      display: block;
+      width: 100%;
+      color: var(--text-color-1);
+      font-size: 1.2rem;
     }
 
     .carousel {

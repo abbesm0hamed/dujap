@@ -4,7 +4,6 @@ import { map } from 'lit/directives/map.js';
 import './featured-cars/featured-car-card';
 import { createQuery, fetchData } from "../utils/fetcher";
 import { CarDetails } from "../types/car";
-import { Router } from '@vaadin/router';
 
 @customElement('featured-cars')
 export class FeaturedCars extends LitElement {
@@ -62,7 +61,7 @@ export class FeaturedCars extends LitElement {
 
   render() {
     if (this.isLoading) {
-      return html`<section>Loading...</section>`;
+      return html`<section class="loading">Loading...</section>`;
     }
     if (this.error) {
       return html`<section>Error: ${this.error.message}</section>`;
@@ -88,7 +87,8 @@ export class FeaturedCars extends LitElement {
   }
 
   private navigateToAllCars() {
-    Router.go('/all-cars');
+    window.history.pushState(null, '', '/all-cars');
+    window.dispatchEvent(new PopStateEvent('popstate'));
   }
 
   static styles = css`
@@ -99,6 +99,12 @@ export class FeaturedCars extends LitElement {
       margin: 0rem auto;
       border-top: 1px solid var(--light-color-op);
       box-shadow: 0 -30px 20px -5px rgba(39, 57, 80, 0.1); 
+    }
+    .loading {
+      display: block;
+      width: 100%;
+      color: var(--text-color-1);
+      font-size: 1.2rem;
     }
     section {
       display: block;

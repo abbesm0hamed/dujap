@@ -35,13 +35,13 @@ export class FeaturedCarCard extends LitElement {
           </div>
           <div class="price-container">
             <span>Price:</span> 
-            <h3>${this.car.price}</h3>
+            <h3>${this.car.price} AED</h3>
           </div>
         </figcaption>
         <article class="featured-card-gradient-bg">
           <div class="content">
             <p>${this.car.description}</p>
-            <p>${this.car.km}</p>
+            <p><span>kilometerage:</span> ${this.car.km}</p>
           </div>
           <div class="image-container">
             <img

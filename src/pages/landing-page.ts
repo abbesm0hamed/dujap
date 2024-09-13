@@ -44,9 +44,9 @@ export class LandingPage extends LitElement {
   render() {
     return html`
       <div class="layout">
-        <app-navbar id="top"></app-navbar>
+        <app-navbar></app-navbar>
         <main>
-          <landing-hero></landing-hero>
+          <landing-hero id="hero"></landing-hero>
           <brand-services id="services"></brand-services>
           <newest-cars id="new-cars"></newest-cars>
           <featured-cars id="featured-cars"></featured-cars>

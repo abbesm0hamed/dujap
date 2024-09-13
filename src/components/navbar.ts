@@ -49,7 +49,7 @@ export class Navbar extends LitElement {
   private renderNavLinks() {
     return html`
       <li>
-        <a @click=${() => this.navigateTo('#top')} class="nav-link">Home</a>
+        <a @click=${() => this.navigateTo('/#hero')} class="nav-link">Home</a>
       </li>
       <li>
         <a @click=${() => this.navigateTo('/#services')} class="nav-link">Services</a>
@@ -100,13 +100,13 @@ export class Navbar extends LitElement {
       left: 0;
       right: 0;
       z-index: 1000;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(70px);
     }
     
     header {
       display: block;
       margin: 0 auto;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(70px);
       max-width: var(--max-width, 1250px) !important;
       padding: 1rem 1rem; 
       display: flex;

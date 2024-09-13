@@ -78,7 +78,8 @@ export class AppFooter extends LitElement {
         </div>
         <a
           id="scroll-Top"
-          href="#top"
+          href="#hero"
+          @click=${() => this.navigateTo('/#hero')}
         >
           <img
             src="/icons/chevron-top.svg"
@@ -90,6 +91,14 @@ export class AppFooter extends LitElement {
         </a>
       </footer>
     `;
+  }
+
+  private navigateTo(path: string) {
+    this.dispatchEvent(new CustomEvent('navigate', {
+      detail: { path },
+      bubbles: true,
+      composed: true
+    }));
   }
 
   static styles = css`

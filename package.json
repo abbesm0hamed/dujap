@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:front": "vite",
+    "dev:server": "tsx watch src/api/index.ts",
+    "dev": "concurrently \"npm run dev:front\" \"npm run dev:server\"",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -14,11 +16,19 @@
     "@lit/task": "^1.0.1",
     "@material/web": "^2.1.0",
     "@tanstack/query-core": "^5.54.1",
+    "concurrently": "^9.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
     "lit": "^3.2.0",
-    "sass": "^1.77.8"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.4",
+    "@types/node-fetch": "^2.6.11",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "tsx": "^4.7.0"
   }
 }

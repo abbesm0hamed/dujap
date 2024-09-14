@@ -4,6 +4,7 @@ import { map } from 'lit/directives/map.js';
 import './featured-cars/featured-car-card';
 import { createQuery, fetchData } from "../utils/fetcher";
 import { CarDetails } from "../types/car";
+import { render } from '@lit-labs/ssr'
 
 @customElement('featured-cars')
 export class FeaturedCars extends LitElement {

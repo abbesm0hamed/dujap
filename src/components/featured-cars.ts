@@ -1,50 +1,32 @@
 import { css, html, LitElement } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import { map } from 'lit/directives/map.js';
+import { Task } from '@lit/task';
 import './featured-cars/featured-car-card';
-import { createQuery, fetchData } from "../utils/fetcher";
-import { CarDetails } from "../types/car";
-import { render } from '@lit-labs/ssr'
+import { fetchData } from "../utils/fetcher.ts";
+import { CarDetails } from "../types/car.js";
 
 @customElement('featured-cars')
 export class FeaturedCars extends LitElement {
   @state() private cars: CarDetails[] = [];
-  @state() private isLoading = true;
-  @state() private error: Error | null = null;
-  private unsubscribe: (() => void) | null = null;
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    if (this.unsubscribe) {
-      this.unsubscribe();
+  private carsTask = new Task(
+    this,
+    async () => {
+      const cars = await fetchData<CarDetails[]>('/cars');
+      if (Array.isArray(cars) && cars.length > 0) {
+        this.cars = cars;
+      } else {
+        console.warn('No cars data received or data is not an array');
+        this.cars = [];
+      }
+      return cars;
     }
-  }
+  );
 
   connectedCallback() {
     super.connectedCallback();
-    this.fetchCars();
-  }
-
-  private fetchCars() {
-    const query = createQuery(
-      ['cars'],
-      () => fetchData<CarDetails[]>('/cars'),
-      {
-        staleTime: 60000, // 1 minute
-        refetchOnMount: 'always', // Always refetch when the component mounts
-        refetchOnWindowFocus: true, // Refetch when the window regains focus
-      }
-    );
-
-    this.unsubscribe = query.subscribe(() => {
-      const result = query.getCurrentResult();
-      this.isLoading = result.isLoading;
-      this.error = result.error as Error | null;
-      if (result.data) {
-        this.cars = result.data;
-      }
-      this.requestUpdate();
-    });
+    this.carsTask.run();
   }
 
   renderSkeleton() {
@@ -65,12 +47,16 @@ export class FeaturedCars extends LitElement {
   }
 
   render() {
-    if (this.isLoading) {
-      return html`<section class="loading">Loading...</section>`;
-    }
-    if (this.error) {
-      return html`<section>Error: ${this.error.message}</section>`;
-    }
+    return html`
+      ${this.carsTask.render({
+      pending: () => html`<section class="loading">Loading...</section>`,
+      complete: () => this.renderCars(),
+      error: (error) => html`<section>Error: ${error.message}</section>`
+    })}
+    `;
+  }
+
+  renderCars() {
     const displayedCars = this.cars.slice(0, 6);
 
     return html`

@@ -1,16 +1,15 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { Task } from '@lit/task';
 import '../components/featured-cars/featured-car-card';
-import { createQuery, fetchData } from "../utils/fetcher";
-import { CarDetails } from "../types/car";
 import { sharedStyles } from '../styles/shared-styles.ts';
+import { fetchData } from '../utils/fetcher.ts';
+import { CarDetails } from '../types/car.js';
 
 @customElement('all-cars')
 export class AllCars extends LitElement {
   @state() private cars: CarDetails[] = [];
   @state() private filteredCars: CarDetails[] = [];
-  @state() private isLoading = true;
-  @state() private error: Error | null = null;
   @state() private filters = {
     model: '',
     brand: '',
@@ -21,18 +20,32 @@ export class AllCars extends LitElement {
 
   @property({ type: Number }) refreshInterval = 60000; // 1 minute by default
 
-  private query: ReturnType<typeof createQuery> | null = null;
   private refreshTimer: number | null = null;
+
+  private carsTask = new Task(
+    this,
+    async () => {
+      const cars = await fetchData<CarDetails[]>('/cars');
+      if (Array.isArray(cars) && cars.length > 0) {
+        this.cars = cars;
+        this.applyFilters();
+      } else {
+        console.warn('No cars data received or data is not an array');
+        this.cars = [];
+        this.filteredCars = [];
+      }
+      return cars;
+    }
+  );
 
   connectedCallback() {
     super.connectedCallback();
-    this.fetchCars();
+    this.carsTask.run();
     this.startRefreshTimer();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.unsubscribeFromQuery();
     this.stopRefreshTimer();
   }
 
@@ -45,38 +58,9 @@ export class AllCars extends LitElement {
     }
   }
 
-  private fetchCars() {
-    this.unsubscribeFromQuery();
-    this.isLoading = true;
-    this.error = null;
-
-    this.query = createQuery(
-      ['cars'],
-      () => fetchData<CarDetails[]>('/cars'),
-      { staleTime: 0 } // Always fetch fresh data
-    );
-
-    this.query.subscribe((result) => {
-      this.isLoading = result.isLoading;
-      this.error = result.error as Error | null;
-      if (result.data) {
-        this.cars = result.data;
-        this.applyFilters();
-      }
-      this.requestUpdate();
-    });
-  }
-
-  private unsubscribeFromQuery() {
-    if (this.query) {
-      this.query.unsubscribe();
-      this.query = null;
-    }
-  }
-
   private startRefreshTimer() {
     this.refreshTimer = window.setInterval(() => {
-      this.fetchCars();
+      this.carsTask.run();
     }, this.refreshInterval);
   }
 
@@ -103,6 +87,7 @@ export class AllCars extends LitElement {
       );
       return modelMatch && brandMatch && colorMatch && priceMatch;
     });
+    this.requestUpdate();
   }
 
   private handleFilterChange(e: Event) {
@@ -133,14 +118,15 @@ export class AllCars extends LitElement {
           <input name="color" placeholder="Color" @input=${this.handleFilterChange}>
         </div>
         <div class="cars-container">
-          ${this.isLoading ? html`<div class="loading">Loading...</div>` :
-        this.error ? html`<div class="error">Error: ${this.error.message}</div>` :
-          this.filteredCars.map(car => html`
+          ${this.carsTask.render({
+      pending: () => html`<div class="loading">Loading...</div>`,
+      complete: () => this.filteredCars.map(car => html`
               <featured-car-card .car="${car}"></featured-car-card>
-            `)
-      }
+            `),
+      error: (error) => html`<div class="error">Error: ${error.message}</div>`
+    })}
         </div>
-        ${this.filteredCars.length === 0 && !this.isLoading ? html`<p class="no-results">No cars match the current filters.</p>` : ''}
+        ${this.filteredCars.length === 0 && !this.carsTask.status === 'complete' ? html`<p class="no-results">No cars match the current filters.</p>` : ''}
       </section>
       <app-footer id="contact" class="footer"></app-footer>
     `;
@@ -260,4 +246,10 @@ export class AllCars extends LitElement {
       color: #ff6b6b;
     }
   `];
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'all-cars': AllCars;
+  }
 }

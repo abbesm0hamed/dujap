@@ -115,6 +115,8 @@ export class Navbar extends LitElement {
       padding: 0.5rem 1rem;
       justify-content: space-between;
       align-items: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     @media (min-width: 768px) {

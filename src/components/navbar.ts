@@ -103,8 +103,6 @@ export class Navbar extends LitElement {
       left: 0;
       right: 0;
       z-index: 1000;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       background-color: rgba(150, 151, 156, 0.6);
       box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1);
       border-bottom: 1px solid var(--border-color-1);

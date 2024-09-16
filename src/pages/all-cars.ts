@@ -6,6 +6,7 @@ import { sharedStyles } from '../styles/shared-styles.ts';
 import { fetchData } from '../utils/fetcher.ts';
 import { CarDetails } from '../types/car.js';
 import '../components/logo.ts';
+import { getBaseUrl } from '../utils/index.utils.ts';
 
 @customElement('all-cars')
 export class AllCars extends LitElement {
@@ -26,7 +27,7 @@ export class AllCars extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>('/api/cars');
+      const cars = await fetchData<CarDetails[]>(getBaseUrl('/api/cars'));
       if (Array.isArray(cars) && cars.length > 0) {
         this.cars = cars;
         this.applyFilters();

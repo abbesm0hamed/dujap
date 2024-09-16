@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { Task } from '@lit/task';
 import { fetchData } from '../../utils/fetcher';
 import { CarDetails } from '../../types/car';
+import { getBaseUrl } from '../../utils/index.utils.ts';
 
 @customElement('newest-cars-carousel')
 export class NewestCarsCarousel extends LitElement {
@@ -14,7 +15,7 @@ export class NewestCarsCarousel extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>('/api/cars');
+      const cars = await fetchData<CarDetails[]>(getBaseUrl('/api/cars'));
       if (Array.isArray(cars) && cars.length > 0) {
         this.selectRandomCars(cars);
       } else {

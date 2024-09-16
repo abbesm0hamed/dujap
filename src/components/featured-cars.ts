@@ -5,6 +5,7 @@ import { Task } from '@lit/task';
 import './featured-cars/featured-car-card';
 import { fetchData } from "../utils/fetcher.ts";
 import { CarDetails } from "../types/car.js";
+import { getBaseUrl } from "../utils/index.utils.ts";
 
 @customElement('featured-cars')
 export class FeaturedCars extends LitElement {
@@ -13,7 +14,7 @@ export class FeaturedCars extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>('/api/cars');
+      const cars = await fetchData<CarDetails[]>(getBaseUrl('/api/cars'));
       if (Array.isArray(cars) && cars.length > 0) {
         this.cars = cars;
       } else {

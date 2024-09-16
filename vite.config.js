@@ -14,6 +14,7 @@ export default defineConfig({
     },
     optimizeDeps: {
       include: ['urlpattern-polyfill']
-    }
+    },
+    envPrefix: 'VITE_'
   }
 })

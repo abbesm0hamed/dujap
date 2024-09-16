@@ -2,6 +2,7 @@ import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import '@material/web/button/filled-button.js';
 import './mobilenav.ts';
+import './logo.ts';
 
 @customElement('app-navbar')
 export class Navbar extends LitElement {
@@ -11,7 +12,9 @@ export class Navbar extends LitElement {
   render() {
     return html`
       <header>
-        <a href="/" class="logo">DuJap Cars</a>
+        <a href="/" class="logo-link">
+          <app-logo></app-logo>
+        </a>
         <button
           class="mobile-menu-button"
           @click=${this.toggleMobileMenu}
@@ -102,20 +105,20 @@ export class Navbar extends LitElement {
       z-index: 1000;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      background-color: rgba(150, 151, 156, 0.18); /* Updated: Silvery background color with opacity */
-      box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1); /* Added: Subtle shadow for depth */
+      background-color: rgba(150, 151, 156, 0.6);
+      box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1);
       border-bottom: 1px solid var(--border-color-1);
     }
     
     header {
-      display: block;
+      display: flex;
       margin: 0 auto;
       max-width: var(--max-width, 1250px) !important;
-      padding: 1rem 1rem; 
-      display: flex;
+      padding: 0.5rem 1rem;
       justify-content: space-between;
       align-items: center;
     }
+
     @media (min-width: 768px) {
       header {
         padding-left: 2rem;
@@ -189,11 +192,6 @@ export class Navbar extends LitElement {
     }
     .contact-button:hover a {
       color: var(--brand-color-5);
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--brand-color-4);
     }
     .mobile-menu-button {
       font-size: 1.5rem;

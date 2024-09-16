@@ -15,7 +15,7 @@ export class AppFooter extends LitElement {
           <div class="footer-top">
             <div class="footer-widget">
               <h2 class="footer-logo">
-                <a href="/">Japanese Cars in Dubai</a>
+                <a href="/">DuJap Cars</a>
               </h2>
               <p>
                 We are at your service with our featured selection of Japanese cars here in Dubai.

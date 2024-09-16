@@ -5,6 +5,7 @@ import '../components/featured-cars/featured-car-card';
 import { sharedStyles } from '../styles/shared-styles.ts';
 import { fetchData } from '../utils/fetcher.ts';
 import { CarDetails } from '../types/car.js';
+import '../components/logo.ts';
 
 @customElement('all-cars')
 export class AllCars extends LitElement {
@@ -105,7 +106,9 @@ export class AllCars extends LitElement {
     return html`
       <header>
         <nav>
-          <a href="/" class="logo">DuJap Cars</a>
+          <a href="/" class="logo-link">
+            <app-logo></app-logo>
+          </a>
         </nav>
       </header>
       <section>
@@ -170,7 +173,7 @@ export class AllCars extends LitElement {
       z-index: 1000;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      background-color: rgba(150, 151, 156, 0.18); /* Updated: Silvery background color with opacity */
+      background-color: rgba(150, 151, 156, 0.6); /* Updated: Silvery background color with opacity */
       box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1); /* Added: Subtle shadow for depth */
       border-bottom: 1px solid var(--border-color-1);
     }

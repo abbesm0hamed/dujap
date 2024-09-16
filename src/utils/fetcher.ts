@@ -1,4 +1,5 @@
 import { QueryClient, QueryObserver } from '@tanstack/query-core';
+import { getBaseUrl } from './index.utils.ts';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,13 +23,13 @@ export function createQuery<T>(
 }
 
 export async function fetchData<T>(url: string): Promise<T> {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${url}`, {
+  const response = await fetch(`${getBaseUrl(url)}`, {
     method: 'GET',
     credentials: 'include',
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    throw new Error(`HTTP error! status: ${response.status} `);
   }
 
   return response.json();

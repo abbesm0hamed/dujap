@@ -76,19 +76,19 @@ export class AppFooter extends LitElement {
             ><img src="/icons/socials/tiktok.svg" alt="tiktok" width="20" /></a>
           </address>
         </div>
-        <a
-          id="scroll-Top"
-          href="#hero"
-          @click=${() => this.navigateTo('/#hero')}
-        >
-          <img
-            src="/icons/chevron-top.svg"
-            id="scroll-top"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Back to Top"
-          />
-        </a>
+        <!-- <a -->
+        <!--   id="scroll-Top" -->
+        <!--   href="#hero" -->
+        <!--   @click=${() => this.navigateTo('/#hero')} -->
+        <!-- > -->
+        <!--   <img -->
+        <!--     src="/icons/chevron-top.svg" -->
+        <!--     id="scroll-top" -->
+        <!--     data-toggle="tooltip" -->
+        <!--     data-placement="top" -->
+        <!--     title="Back to Top" -->
+        <!--   /> -->
+        <!-- </a> -->
       </footer>
     `;
   }

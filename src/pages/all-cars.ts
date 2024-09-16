@@ -106,7 +106,10 @@ export class AllCars extends LitElement {
     return html`
       <header>
         <nav>
-          <a href="/" class="logo-link">
+          <a
+            href="/"
+            class="logo-link"
+          >
             <app-logo></app-logo>
           </a>
         </nav>
@@ -123,9 +126,7 @@ export class AllCars extends LitElement {
         <div class="cars-container">
           ${this.carsTask.render({
       pending: () => html`<div class="loading">Loading...</div>`,
-      complete: () => this.filteredCars.map(car => html`
-              <featured-car-card .car="${car}"></featured-car-card>
-            `),
+      complete: () => this.filteredCars.map(car => html` <featured-car-card .car="${car}"></featured-car-card> `),
       error: (error) => html`<div class="error">Error: ${error.message}</div>`
     })}
         </div>

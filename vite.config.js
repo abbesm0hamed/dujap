@@ -11,6 +11,9 @@ export default defineConfig({
     },
     ssr: {
       noExternal: ['lit']
+    },
+    optimizeDeps: {
+      include: ['urlpattern-polyfill']
     }
   }
 })

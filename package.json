@@ -25,7 +25,8 @@
     "express": "^4.21.0",
     "fs": "0.0.1-security",
     "lit": "^3.2.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "urlpattern-polyfill": "^10.0.0"
   },
   "devDependencies": {
     "@swc/cli": "0.4.1-nightly.20240914",

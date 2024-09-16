@@ -1,4 +1,4 @@
-import carsRoutes from '../api/cars/cars.routes.ts'
+import carsRoutes from './cars/cars.routes.ts'
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -7,16 +7,16 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173' || 'http://localhost:4173',
   credentials: true,
   optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 
-app.use('/cars', carsRoutes);
+app.use('/api/cars', carsRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} `);
+  console.log(`Server running on port ${PORT}`);
 });

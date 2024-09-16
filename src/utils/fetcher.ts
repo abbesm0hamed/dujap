@@ -34,6 +34,6 @@ export async function fetchData<T>(url: string): Promise<T> {
   return response.json();
 }
 
-export function prefetchQuery(queryKey: string[], queryFn: () => Promise<any>) {
-  return queryClient.prefetchQuery(queryKey, queryFn);
-}
+// export function prefetchQuery(queryKey: string[], queryFn: () => Promise<any>) {
+//   return queryClient.prefetchQuery(queryKey, queryFn);
+// }

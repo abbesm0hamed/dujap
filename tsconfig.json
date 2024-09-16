@@ -12,11 +12,12 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": false
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.js"],
   "exclude": ["node_modules"]
 }

@@ -25,7 +25,7 @@ export class AllCars extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>('/cars');
+      const cars = await fetchData<CarDetails[]>('/api/cars');
       if (Array.isArray(cars) && cars.length > 0) {
         this.cars = cars;
         this.applyFilters();
@@ -139,8 +139,8 @@ export class AllCars extends LitElement {
       width: 100%;
       max-width: 100%;
       min-height: 100vh;
-      background: rgb(20,27,36);
-      background: linear-gradient(180deg, rgba(20,27,36,1) 0%, rgba(13,15,18,1) 35%, rgba(0,0,0,1) 100%);
+      background: rgb(25,35,70);
+      background: linear-gradient(180deg, rgba(25,35,70,1) 0%, rgba(12,17,34,1) 50%, rgba(0,0,0,1) 100%);
     }
     .loading {
       display: block;
@@ -152,8 +152,6 @@ export class AllCars extends LitElement {
       color: var(--text-color-1);
       font-size: 1.2rem;
       max-width: var(--max-width);
-      background: rgb(20,27,36);
-      background: linear-gradient(180deg, rgba(20,27,36,1) 0%, rgba(13,15,18,1) 35%, rgba(0,0,0,1) 100%);
     }
 
     .logo {
@@ -170,12 +168,15 @@ export class AllCars extends LitElement {
       left: 0;
       right: 0;
       z-index: 1000;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      background-color: rgba(150, 151, 156, 0.18); /* Updated: Silvery background color with opacity */
+      box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1); /* Added: Subtle shadow for depth */
+      border-bottom: 1px solid var(--border-color-1);
     }
     nav {
       display: block;
       margin: 0 auto;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(70px);
       max-width: var(--max-width, 1250px) !important;
       padding: 1rem 1rem; 
       display: flex;
@@ -227,7 +228,7 @@ export class AllCars extends LitElement {
     }
     .filters input {
       padding: 0.5rem;
-      border: 1px solid var(--border-color-1);
+      border: 1px solid rgb(255, 255, 255, 0.4);
       border-radius: var(--border-radius);
       background-color: var(--background-color-2);
       color: var(--text-color-1);

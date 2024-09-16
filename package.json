@@ -1,14 +1,17 @@
 {
   "name": "jar",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1",
   "type": "module",
   "scripts": {
     "dev:front": "vite",
     "dev:server": "tsx watch src/api/index.ts",
     "dev": "concurrently \"npm run dev:front\" \"npm run dev:server\"",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:front": "vite build",
+    "build:server": "swc src/api -d dist/api && node fix-build-imports.js",
+    "build": "npm run build:front && npm run build:server",
+    "type-check": "tsc --noEmit",
+    "start": "concurrently \"vite preview\" \"node dist/api/src/api/index.js\""
   },
   "dependencies": {
     "@lit-labs/router": "^0.1.3",
@@ -20,15 +23,18 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "fs": "0.0.1-security",
     "lit": "^3.2.0",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@swc/cli": "0.4.1-nightly.20240914",
+    "@swc/core": "^1.7.26",
     "@types/express": "^4.17.21",
     "@types/node": "^22.5.4",
     "@types/node-fetch": "^2.6.11",
+    "tsx": "^4.7.0",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1",
-    "tsx": "^4.7.0"
+    "vite": "^5.4.1"
   }
 }

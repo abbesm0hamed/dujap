@@ -101,7 +101,10 @@ export class Navbar extends LitElement {
       right: 0;
       z-index: 1000;
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(70px);
+      -webkit-backdrop-filter: blur(10px);
+      background-color: rgba(150, 151, 156, 0.18); /* Updated: Silvery background color with opacity */
+      box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1); /* Added: Subtle shadow for depth */
+      border-bottom: 1px solid var(--border-color-1);
     }
     
     header {

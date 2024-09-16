@@ -35,8 +35,8 @@ export class CarLogoMarquee extends LitElement {
   static styles = css`
     :host {
       display: block;
-      background: rgb(20,27,36);
-      background: linear-gradient(180deg, rgba(20,27,36,1) 0%, rgba(13,15,18,1) 35%, rgba(0,0,0,1) 100%);
+      background: rgb(25,35,70);
+      background: linear-gradient(180deg, rgba(25,35,70,1) 0%, rgba(12,17,34,1) 50%, rgba(0,0,0,1) 100%);
       padding: 0 0 2rem 0;
     }
 

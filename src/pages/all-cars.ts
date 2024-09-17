@@ -175,9 +175,20 @@ export class AllCars extends LitElement {
       z-index: 1000;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      background-color: rgba(150, 151, 156, 0.6); /* Updated: Silvery background color with opacity */
-      box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1); /* Added: Subtle shadow for depth */
+      box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1); 
       border-bottom: 1px solid var(--border-color-1);
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('/patterns/light-alum.png');
+      background-color: rgba(150, 151, 156, 0.6);
+      opacity: 0.7; 
+      z-index: -1;
     }
     nav {
       display: block;

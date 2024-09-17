@@ -45,7 +45,8 @@ export class CarLogoMarquee extends LitElement {
       width: 100%;
       overflow: hidden;
       padding: 1rem 0;
-      border: 1px solid var(--border-color-1);
+      border-top: 1px solid var(--border-color-1);
+      border-bottom: 1px solid var(--border-color-1);
       background-color: var(--brand-color-7);
       box-shadow: 0 0 80px rgb(43 90 91 / 30%);
 

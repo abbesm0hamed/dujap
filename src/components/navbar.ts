@@ -11,31 +11,33 @@ export class Navbar extends LitElement {
 
   render() {
     return html`
-      <header>
-        <a href="/" class="logo-link">
-          <app-logo></app-logo>
-        </a>
-        <button
-          class="mobile-menu-button"
-          @click=${this.toggleMobileMenu}
-          ?hidden=${!this.isMobile && !this.mobileMenuOpen}
-        >
-          <img
-            src="/icons/hamburger.svg"
-            alt='menu'
-            width="32"
-            height="32"
-          />
-        </button>
-        <nav
-          class="desktop-nav"
-          ?hidden=${this.isMobile && this.mobileMenuOpen}
-        >
-          <ul>
-            ${this.renderNavLinks()}
-          </ul>
-        </nav>
-      </header>
+      <section>
+        <header>
+          <a href="/" class="logo-link">
+            <app-logo></app-logo>
+          </a>
+          <button
+            class="mobile-menu-button"
+            @click=${this.toggleMobileMenu}
+            ?hidden=${!this.isMobile && !this.mobileMenuOpen}
+          >
+            <img
+              src="/icons/hamburger.svg"
+              alt='menu'
+              width="32"
+              height="32"
+            />
+          </button>
+          <nav
+            class="desktop-nav"
+            ?hidden=${this.isMobile && this.mobileMenuOpen}
+          >
+            <ul>
+              ${this.renderNavLinks()}
+            </ul>
+          </nav>
+        </header>
+      </section>
       <aside ?hidden=${!this.isMobile && !this.mobileMenuOpen}>
         <mobile-nav
           .open=${this.mobileMenuOpen && this.isMobile}
@@ -102,21 +104,35 @@ export class Navbar extends LitElement {
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1000;
-      background-color: rgba(150, 151, 156, 0.6);
-      box-shadow: 0 4px 6px rgba(150, 151, 156, 0.1);
+      z-index: 50;
+    }
+    section {
+      position: relative;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border-color-1);
+    }
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('/patterns/light-alum.png');
+      background-color: rgba(150, 151, 156, 0.6);
+      opacity: 0.7; 
+      z-index: -1;
     }
     
     header {
+      position: relative;
+      max-width: var(--max-width, 1250px) !important;
       display: flex;
       margin: 0 auto;
-      max-width: var(--max-width, 1250px) !important;
       padding: 0.5rem 1rem;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
     }
 
     @media (min-width: 768px) {
@@ -154,6 +170,7 @@ export class Navbar extends LitElement {
       justify-content: start;
       gap: 1rem;
       padding: 2rem 0;
+      z-index: 1000;
     }
     li {
       display: flex;
@@ -170,6 +187,7 @@ export class Navbar extends LitElement {
       height: 100%;
       align-items: center;
       justify-content: center;
+      pointer-events: auto;
     }
     li a:hover {
       color: var(--light-color)
@@ -200,6 +218,7 @@ export class Navbar extends LitElement {
       display: none;
       padding: 0;
       margin: 0;
+      pointer-events: auto;
     }
     .mobile-menu-button:hover {
       cursor: pointer;
@@ -213,6 +232,7 @@ export class Navbar extends LitElement {
       color: white;
       text-decoration: none;
       margin: 0 1rem;
+      pointer-events: auto;
     }
     .nav-link:hover {
       cursor: pointer;
@@ -242,6 +262,7 @@ export class Navbar extends LitElement {
       overflow: hidden;
       max-height: 0;
       transition: max-height 0.3s ease-out;
+      pointer-events: auto;
     }
 
     aside mobile-nav[open] {

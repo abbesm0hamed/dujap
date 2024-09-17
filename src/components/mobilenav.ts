@@ -50,11 +50,12 @@ export class MobileNav extends LitElement {
       width: 300px;
       height: 100%;
       background-color: var(--brand-color-2);
+      border-right: 1px solid var(--border-color-1);
       transition: left 0.3s;
       z-index: 999;
       padding: 1rem;
       box-sizing: border-box;
-    }
+    } 
     .mobile-nav.open {
       left: 0;
     }

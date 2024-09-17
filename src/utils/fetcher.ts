@@ -23,7 +23,6 @@ export function createQuery<T>(
 }
 
 export async function fetchData<T>(url: string): Promise<T> {
-  console.log("url ", url)
   const response = await fetch(url, {
     method: 'GET',
     credentials: 'include',

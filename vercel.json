@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/src/api/(.*)",  
+      "destination": "https://dujap-cars.vercel.app/v1/$1"
+    }
+  ]
+}

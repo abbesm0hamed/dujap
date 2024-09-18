@@ -11,9 +11,7 @@
     "build:server": "swc src/api -d dist/api && node fix-build-imports.js",
     "build": "npm run build:front && npm run build:server",
     "type-check": "tsc --noEmit",
-    "start-local": "concurrently \"vite preview\" \"node dist/api/src/api/index.js\"",
-    "start": "vite preview",
-    "vercel-build": "vite build"
+    "start": "concurrently \"vite preview\" \"node dist/api/src/api/index.js\""
   },
   "dependencies": {
     "@lit-labs/router": "^0.1.3",

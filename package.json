@@ -12,7 +12,8 @@
     "build": "npm run build:front && npm run build:server",
     "type-check": "tsc --noEmit",
     "start-local": "concurrently \"vite preview\" \"node dist/api/src/api/index.js\"",
-    "start": "vite preview"
+    "start": "vite preview",
+    "vercel-build": "vite build"
   },
   "dependencies": {
     "@lit-labs/router": "^0.1.3",

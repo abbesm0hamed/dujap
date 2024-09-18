@@ -27,11 +27,11 @@ export class CarsService {
       if (!response.ok) {
         throw new Error('Failed to fetch cars');
       }
-      const data = await response.json();
-      if (!Array.isArray(data.list)) {
+      const data: any = await response.json();
+      if (!Array.isArray(data?.list)) {
         throw new Error('Invalid data format');
       }
-      return data.list;
+      return data?.list;
     } catch (error) {
       console.error('Error fetching cars:', error);
       throw error;

@@ -19,6 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/api/cars', carsRoutes);
+app.use(express.json());
 
 const PORT = process.env.VITE_PORT || 3000;
 app.listen(PORT, () => {

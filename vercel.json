@@ -15,9 +15,5 @@
       "src": "/v1/(.*)",
       "dest": "dist/api/src/api/index.js"
     },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
   ]
 }

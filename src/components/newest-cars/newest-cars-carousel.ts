@@ -15,7 +15,7 @@ export class NewestCarsCarousel extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>(getBaseUrl('/api/cars'));
+      const cars = await fetchData<CarDetails[]>(getBaseUrl('/cars'));
       if (Array.isArray(cars) && cars.length > 0) {
         this.selectRandomCars(cars);
       } else {

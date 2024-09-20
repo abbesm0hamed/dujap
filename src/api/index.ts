@@ -11,6 +11,8 @@ const corsOptions = {
     process.env.FRONTEND_URL,
     'http://localhost:5173',
     'http://localhost:4173',
+    'www.dujap.com',
+    'dujap.com'
   ],
   credentials: true,
   optionsSuccessStatus: 200
@@ -18,10 +20,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use('/api/cars', carsRoutes);
+app.use('/api/v1/cars', carsRoutes);
 app.use(express.json());
 
-const PORT = process.env.VITE_PORT || 3000;
+const PORT = process.env.VITE_PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -6,6 +6,7 @@ import './featured-cars/featured-car-card';
 import { fetchData } from "../utils/fetcher.ts";
 import { CarDetails } from "../types/car.js";
 import { getBaseUrl } from "../utils/index.utils.ts";
+import { carStore } from "../stores/car-store.ts";
 
 @customElement('featured-cars')
 export class FeaturedCars extends LitElement {
@@ -14,19 +15,24 @@ export class FeaturedCars extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>(getBaseUrl('/cars'));
-      if (Array.isArray(cars) && cars.length > 0) {
-        this.cars = cars;
-      } else {
-        console.warn('No cars data received or data is not an array');
-        this.cars = [];
-      }
+      const cars = await carStore.getCars();
+      this.cars = cars;
       return cars;
     }
   );
 
   connectedCallback() {
     super.connectedCallback();
+    this.handleUpdate();
+    carStore.addEventListener('update', this.handleUpdate);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    carStore.removeEventListener('update', this.handleUpdate);
+  }
+
+  private handleUpdate = () => {
     this.carsTask.run();
   }
 
@@ -48,13 +54,11 @@ export class FeaturedCars extends LitElement {
   }
 
   render() {
-    return html`
-      ${this.carsTask.render({
+    return this.carsTask.render({
       pending: () => html`<section class="loading">Loading...</section>`,
       complete: () => this.renderCars(),
       error: (error) => html`<section>Error: ${error.message}</section>`
-    })}
-    `;
+    });
   }
 
   renderCars() {

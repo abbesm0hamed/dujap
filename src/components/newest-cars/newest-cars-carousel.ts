@@ -4,6 +4,7 @@ import { Task } from '@lit/task';
 import { fetchData } from '../../utils/fetcher';
 import { CarDetails } from '../../types/car';
 import { getBaseUrl } from '../../utils/index.utils.ts';
+import { carStore } from '../../stores/car-store.ts';
 
 @customElement('newest-cars-carousel')
 export class NewestCarsCarousel extends LitElement {
@@ -15,19 +16,24 @@ export class NewestCarsCarousel extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>(getBaseUrl('/cars'));
-      if (Array.isArray(cars) && cars.length > 0) {
-        this.selectRandomCars(cars);
-      } else {
-        console.warn('No cars data received or data is not an array');
-        this.displayedCars = [];
-      }
-      return cars;
+      const cars = await carStore.getCars();
+      this.selectRandomCars(cars);
+      return this.displayedCars;
     }
   );
 
   connectedCallback() {
     super.connectedCallback();
+    this.handleUpdate();
+    carStore.addEventListener('update', this.handleUpdate);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    carStore.removeEventListener('update', this.handleUpdate);
+  }
+
+  private handleUpdate = () => {
     this.carsTask.run();
   }
 

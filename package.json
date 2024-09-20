@@ -11,6 +11,7 @@
     "build:server": "swc src/api -d dist/api && node fix-build-imports.js",
     "build": "npm run build:front && npm run build:server",
     "type-check": "tsc --noEmit",
+    "start:front": "vite preview",
     "start": "concurrently \"vite preview\" \"node dist/api/src/api/index.js\""
   },
   "dependencies": {
@@ -18,7 +19,7 @@
     "@lit-labs/ssr": "^3.2.2",
     "@lit/task": "^1.0.1",
     "@material/web": "^2.1.0",
-    "@tanstack/query-core": "^5.54.1",
+    "@types/express": "^4.17.21",
     "concurrently": "^9.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -32,7 +33,6 @@
     "@swc/cli": "0.4.1-nightly.20240914",
     "@swc/core": "^1.7.26",
     "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
     "@types/node": "^22.5.4",
     "@types/node-fetch": "^2.6.11",
     "tsx": "^4.7.0",

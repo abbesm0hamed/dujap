@@ -7,6 +7,7 @@ import { fetchData } from '../utils/fetcher.ts';
 import { CarDetails } from '../types/car.js';
 import '../components/logo.ts';
 import { getBaseUrl } from '../utils/index.utils.ts';
+import { carStore } from '../stores/car-store.ts';
 
 @customElement('all-cars')
 export class AllCars extends LitElement {
@@ -27,42 +28,33 @@ export class AllCars extends LitElement {
   private carsTask = new Task(
     this,
     async () => {
-      const cars = await fetchData<CarDetails[]>(getBaseUrl('/cars'));
-      if (Array.isArray(cars) && cars.length > 0) {
-        this.cars = cars;
-        this.applyFilters();
-      } else {
-        console.warn('No cars data received or data is not an array');
-        this.cars = [];
-        this.filteredCars = [];
-      }
-      return cars;
+      const cars = await carStore.getCars();
+      this.cars = cars;
+      this.applyFilters();
+      return this.filteredCars;
     }
   );
 
   connectedCallback() {
     super.connectedCallback();
-    this.carsTask.run();
+    this.handleUpdate();
+    carStore.addEventListener('update', this.handleUpdate);
     this.startRefreshTimer();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    carStore.removeEventListener('update', this.handleUpdate);
     this.stopRefreshTimer();
   }
 
-  updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has('filters')) {
-      this.applyFilters();
-    }
-    if (changedProperties.has('refreshInterval')) {
-      this.restartRefreshTimer();
-    }
+  private handleUpdate = () => {
+    this.carsTask.run();
   }
 
   private startRefreshTimer() {
     this.refreshTimer = window.setInterval(() => {
-      this.carsTask.run();
+      carStore.refreshCars();
     }, this.refreshInterval);
   }
 

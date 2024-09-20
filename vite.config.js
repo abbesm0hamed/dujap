@@ -9,8 +9,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       }
     },
+    build: {
+      ssr: true,
+    },
     ssr: {
-      noExternal: ['lit']
+      noExternal: ['lit', '@lit-labs/ssr', '@lit-labs/router']
     },
     optimizeDeps: {
       include: ['urlpattern-polyfill']

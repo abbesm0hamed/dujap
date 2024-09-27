@@ -93,6 +93,7 @@ export class AllCars extends LitElement {
       ...this.filters,
       [name]: value
     };
+    this.applyFilters(); // Call applyFilters after updating the filters
   }
 
   render() {
@@ -119,11 +120,11 @@ export class AllCars extends LitElement {
         <div class="cars-container">
           ${this.carsTask.render({
       pending: () => html`<div class="loading">Loading...</div>`,
-      complete: () => this.filteredCars.map(car => html` <featured-car-card .car="${car}"></featured-car-card> `),
+      complete: () => this.filteredCars.map(car => html`<featured-car-card .car="${car}"></featured-car-card>`),
       error: (error) => html`<div class="error">Error: ${error.message}</div>`
     })}
         </div>
-        ${this.filteredCars.length === 0 && !this.carsTask.status === 'complete' ? html`<p class="no-results">No cars match the current filters.</p>` : ''}
+        ${this.filteredCars.length === 0 && this.carsTask.status === 'complete' ? html`<p class="no-results">No cars match the current filters.</p>` : ''}
       </section>
       <app-footer id="contact" class="footer"></app-footer>
     `;

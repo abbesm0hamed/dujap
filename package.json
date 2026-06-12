@@ -11,32 +11,34 @@
     "build:server": "swc src/api -d dist/api && node fix-build-imports.js",
     "build": "npm run build:front && npm run build:server",
     "type-check": "tsc --noEmit",
+    "start": "concurrently \"vite preview\" \"node dist/api/src/api/index.js\"",
     "start:front": "vite preview",
-    "start": "concurrently \"vite preview\" \"node dist/api/src/api/index.js\""
+    "bump-deps": "npx npm-check-updates --deep -u",
+    "bump-catalog": "pnpm update --latest --recursive"
   },
   "dependencies": {
     "@lit-labs/router": "^0.1.4",
-    "@lit-labs/ssr": "^4.0.0",
+    "@lit-labs/ssr": "^4.1.0",
     "@lit/task": "^1.0.3",
     "@material/web": "^2.4.1",
     "@types/express": "^5.0.6",
-    "concurrently": "^9.2.1",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
+    "concurrently": "^10.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "fs": "0.0.1-security",
-    "lit": "^3.3.2",
+    "lit": "^3.3.3",
     "node-fetch": "^3.3.2",
     "urlpattern-polyfill": "^10.1.0"
   },
   "devDependencies": {
-    "@swc/cli": "0.7.9",
-    "@swc/core": "^1.15.8",
+    "@swc/cli": "0.8.1",
+    "@swc/core": "^1.15.41",
     "@types/cors": "^2.8.19",
-    "@types/node": "^25.0.3",
+    "@types/node": "^25.9.3",
     "@types/node-fetch": "^2.6.13",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.0"
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
   }
 }
